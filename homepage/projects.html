@@ -1,0 +1,118 @@
+code 
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="light">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+      crossorigin="anonymous"
+    />
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+      crossorigin="anonymous"
+      defer
+    ></script>
+    <link href="styles.css" rel="stylesheet" />
+    <title>Projects — Brendan Deery</title>
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-lg bg-body-tertiary shadow-sm">
+      <div class="container">
+        <a class="navbar-brand" href="index.html">BD</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div id="mainNav" class="collapse navbar-collapse">
+          <ul class="navbar-nav ms-auto">
+            <li class="nav-item"><a class="nav-link" href="about.html">About</a></li>
+            <li class="nav-item"><a class="nav-link" href="hobbies.html">Hobbies</a></li>
+            <li class="nav-item"><a class="nav-link active" href="projects.html" aria-current="page">Projects</a></li>
+            <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
+          </ul>
+          <button id="themeToggle" class="btn btn-outline-primary ms-lg-3" type="button">🌞 Light</button>
+        </div>
+      </div>
+    </nav>
+
+    <main class="container my-5">
+      <header class="mb-4">
+        <h1 class="section-title">Projects</h1>
+        <p class="lead">Small steps forward—courses and experiments.</p>
+      </header>
+
+      <section class="row g-4">
+        <article class="col-12 col-md-6">
+          <div class="card h-100">
+            <div class="card-body">
+              <h2 class="h5 card-title">CS50x 2025</h2>
+              <p class="card-text">
+                Working through problem sets, focusing on fundamentals across C, Python, HTML/CSS/JS, and more.
+              </p>
+              <button class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#modalCs50">Details</button>
+            </div>
+          </div>
+        </article>
+
+        <article class="col-12 col-md-6">
+          <div class="card h-100">
+            <div class="card-body">
+              <h2 class="h5 card-title">SAP → SQL Server Analytics</h2>
+              <p class="card-text">
+                Exploring extracts from ACDOCA and building queryable datasets for analysis and visualization.
+              </p>
+              <button class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#modalSap">Details</button>
+            </div>
+          </div>
+        </article>
+      </section>
+
+      <!-- Bootstrap modals (interactive components) -->
+      <div class="modal fade" id="modalCs50" tabindex="-1" aria-labelledby="modalCs50Label" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <header class="modal-header">
+              <h2 class="modal-title h5" id="modalCs50Label">CS50x 2025</h2>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </header>
+            <div class="modal-body">
+              Learning by building: problem sets, style, and testing. This homepage is part of that journey.
+            </div>
+            <footer class="modal-footer">
+              <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Nice!</button>
+            </footer>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal fade" id="modalSap" tabindex="-1" aria-labelledby="modalSapLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <header class="modal-header">
+              <h2 class="modal-title h5" id="modalSapLabel">SAP → SQL Server Analytics</h2>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </header>
+            <div class="modal-body">
+              Batch extraction, indexing, and conversion for performant queries—then visuals in Power BI.
+            </div>
+            <footer class="modal-footer">
+              <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Got it</button>
+            </footer>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <footer class="border-top py-4 mt-5">
+      <div class="container text-center">
+        <small>&copy; <span id="year"></span> Brendan Deery</small>
+      </div>
+    </footer>
+
+    <button id="backToTop" class="btn btn-primary back-to-top" type="button">↑</button>
+    <script src="script.js" defer></script>
+  </body>
+</html>
