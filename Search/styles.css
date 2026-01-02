@@ -1,0 +1,16 @@
+
+:root { --blue: #1a73e8; }
+/* Keep the rounded, Google-like input look on top of Bootstrap */
+.search-input {
+  max-width: 600px;
+  border-radius: 24px;
+  border: 1px solid #dadce0;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.06);
+}
+.search-input:focus { box-shadow: 0 1px 6px rgba(66,133,244,0.3); }
+
+/* Make upper-right links match Google's color */
+.link-primary { color: var(--blue) !important; }
+
+/* Footer tone */
+footer { color: #6c757d; }
