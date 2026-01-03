@@ -1,0 +1,99 @@
+/* Global Rules) */
+
+/* Applies to the entire page.*/
+
+body {
+  background-color: rgb(224, 255, 231);
+  font-family: Arial, sans-serif;
+  margin: 20px;
+}
+
+/* Applies to all list items inside any unordered list.*/
+
+ul > li{
+    color: blue;
+  }
+
+
+
+  /* Applies to all <button> elements when hovered over.*/
+  button:hover {
+    background-color:red;
+  }
+
+/* Applies to all <form> elements.*/
+form {
+  margin-top: 10px;
+}
+
+/* Applies to all text and email input fields within forms.*/
+
+input[type="text"], input[type="email"] {
+  width: 20%;
+  padding: 8px;
+  margin: 5px 0 15px 0;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+/* Applies to all tables, table headers, and table data cells.*/
+
+table, th, td {
+  border: 1px solid black;
+  border-collapse: collapse;
+  padding: 8px;
+}
+
+/* Applies to all table headers.*/
+
+th {
+  background-color: #f2f2f2;
+}
+
+.spaced-list li {
+  margin-bottom: 10px;
+}
+
+.Page-Header {
+  color: red;
+  text-align: left;
+}
+
+
+#container {
+  display: flex;
+  flex-wrap: wrap;         /* fixed typo: flec-wrap -> flex-wrap */
+  flex-direction: column;
+  align-items: center;
+}
+
+#container > div {
+  margin: 10px;
+}
+
+
+.button {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+.foo{
+    color: blue;
+    font-size: 100px;
+  }
+
+
+.box{
+    background-color: lightgrey;
+    border: 2px solid black; /* <-- applies to EVERY <div>, including .container/.row/.col */
+    padding: 50px;
+    margin-bottom: 10px;
+    width: 50%;
+    height: auto;
+    font-family: Arial, Helvetica, sans-serif;
+  }
+

@@ -1,4 +1,7 @@
 
+/* White background like Google */
+
+
 :root { --blue: #1a73e8; }
 /* Keep the rounded, Google-like input look on top of Bootstrap */
 .search-input {

@@ -1,39 +1,113 @@
 <!DOCTYPE html>
-
 <html lang="en">
+
     <head>
+        <meta charset="UTF-8" />
+        <title>Trivia!</title>
+
         <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500&display=swap" rel="stylesheet">
         <link href="styles.css" rel="stylesheet">
-        <title>Trivia!</title>
+
         <script>
+            //Part 1
             // TODO: Add code to check answers to questions
+            // Show feedback text and color based on status
+            function checkMC(button, status) {
+                var feedback = document.getElementById('mc-feedback');
+                if (!feedback) return;
+
+                // Make sure it's visible
+                feedback.style.display = 'block';
+
+                if (status === 'correct') {
+                    feedback.textContent = 'Correct!';
+                    feedback.style.color = 'green';
+                } else {
+                    feedback.textContent = 'Incorrect';
+                    feedback.style.color = 'red';
+                }
+            }
+
+            // ===== Part 2: Free Response =====
+            function checkFR() {
+                var input = document.getElementById('fr-input');
+                var feedback = document.getElementById('fr-feedback');
+                if (!input || !feedback) return;
+
+                // Normalize user input for comparison
+                var userAnswer = (input.value || '').trim().toLowerCase();
+
+                // Set your correct answer here (case-insensitive)
+                var CORRECT = 'william shakespeare';
+
+                // Show feedback element
+                feedback.style.display = 'block';
+
+                if (userAnswer === CORRECT) {
+                    feedback.textContent = 'Correct!';
+                    feedback.style.color = 'green';
+                    // Optional: tint input to reinforce correctness
+                    input.style.border = '2px solid green';
+                    input.style.backgroundColor = '#ebfff3';
+                } else {
+                    feedback.textContent = 'Incorrect';
+                    feedback.style.color = 'red';
+                    input.style.border = '2px solid red';
+                    input.style.backgroundColor = '#fff0f0';
+                }
+            }
         </script>
+
+        <style>
+            /* Feedback hidden until a choice is clicked */
+            .feedback {
+                display: none;
+                font-weight: bold;
+            }
+        </style>
     </head>
+
     <body>
         <div class="header">
             <h1>Trivia!</h1>
         </div>
 
         <div class="container">
-            <div class="section">
-                <h2>Part 1: Multiple Choice </h2>
-                <hr>
-                <!-- TODO: Add multiple choice question here -->
-                 
-<p>What is the capital of France?</p>
-<button onclick="checkMC(this, 'wrong')">Berlin</button>
-<button onclick="checkMC(this, 'wrong')">Madrid</button>
-<button onclick="checkMC(this, 'correct')">Paris</button>
-<button onclick="checkMC(this, 'wrong')">Rome</button>
-``
+            <section>
+                <h3>What is the capital of France?</h3>
 
-            </div>
+                <div class="choices">
+                    <!-- Call JS on click -->
+                    <button onclick="checkMC(this, 'wrong')">Berlin</button>
+                    <button onclick="checkMC(this, 'wrong')">Madrid</button>
+                    <button onclick="checkMC(this, 'correct')">Paris</button> <!-- ✅ Correct -->
+                    <button onclick="checkMC(this, 'wrong')">Rome</button>
+                </div>
 
-            <div class="section">
-                <h2>Part 2: Free Response</h2>
-                <hr>
-                <!-- TODO: Add free response question here -->
-            </div>
+                <!-- Feedback element for JS -->
+                <p id="mc-feedback" class="feedback"></p>
+            </section>
         </div>
+
+        <div class="section">
+            <h2>Part 2: Free Response</h2>
+
+            <!-- TODO: Add free response question here -->
+
+
+            <h3>Who wrote the play "Romeo and Juliet"?</h3>
+
+            <!-- Input field for the user's answer -->
+            <input id="fr-input" type="text" placeholder="Type your answer here…" />
+
+            <!-- Button to confirm/check the answer -->
+            <button onclick="checkFR()">Check Answer</button>
+
+            <!-- Feedback element for JS (hidden by default via .feedback style) -->
+            <p id="fr-feedback" class="feedback"></p>
+
+        </div>
+
     </body>
+
 </html>

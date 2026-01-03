@@ -1,0 +1,11 @@
+{#Analagous to the menu template.It contains the design elements that never change (like the logo, header, or background colors) so you don't have to rewrite them #}
+
+{# This is the 'Body' content that gets plugged into the Layout #}
+{% extends "layout.html" %}
+
+{% block body %}
+    <form action="/" method="post">
+        <input autocomplete="off" autofocus name="name" placeholder="Name" type="text">
+        <button type="submit">Greet</button>
+    </form>
+{% endblock %}

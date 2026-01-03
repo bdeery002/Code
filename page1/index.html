@@ -1,0 +1,243 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+  <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>My Webpage </title>
+    
+    <!--The <link> tag for Bootstrap CSS must go in the <head> so styles are loaded before the page renders.-->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <link rel="stylesheet" href="styles.css?v=1" />
+  </head>
+
+  <body>
+     
+    
+     <h1 class="foo"> Playing around with bootstrap</h1>
+
+      <img src="flex.jpg" class="my-3"
+          alt="Flex Grid" 
+          style="max-width: 40%; height: auto;" />
+
+
+ 
+<div class = "mb-3">
+  <h2><u><strong>Grid system with three equal columns </strong>:</u> </h2>
+  The bootstrap link
+  <a href="https://getbootstrap.com/docs/5.3/layout/grid/" target="_blank">grid</a> 
+
+    <div class= "container-fluid mt-3">
+      <div class="row justify-content-center" style="border: 2px solid black;">
+        <div class="col" style="border: 2px solid blue;">
+          Column
+        </div>
+        <div class="col" style="border: 2px solid red;">
+          Column
+        </div>
+        <div class="col" style="border: 2px solid green;">
+          Column
+        </div>
+      </div>
+    </div>
+</div>
+ 
+
+
+<div class = "mb-3">
+  <h2><u><strong>Respsonive Design where use col-sm-6 col-md-4 syntax to define column sizes at different breakpoints </strong>:</u> </h2>
+  The bootstrap link
+  <a href="https://getbootstrap.com/docs/5.3/layout/grid/" target="_blank">grid</a> 
+
+    <div class= "container-fluid mt-3">
+      <div class="row justify-content-center">
+        <div class="col-sm-6 col-md-4" style="border: 2px solid blue;">
+          Column
+        </div>
+        <div class="col-sm-6 col-md-4" style="border: 2px solid red;">
+          Column
+        </div>
+        <div class="col-sm-6 col-md-4" style="border: 2px solid green;">
+          Column
+        </div>
+      </div>
+    </div>
+</div>
+ 
+
+
+
+
+
+    <div class="alert alert-primary pt-3" role="alert">
+      Bootstrap- A simple primary alert—check it out!
+    </div>
+
+        <div class="box py-5">
+         Bootstrap - This is a div element with a light grey background, black border, padding, and margin.
+        </div>  
+
+<h1 class ="Page-Header py-5">Fixed column sizes at breakpoints (mobile‑first)</h1>
+
+    <!-- sm ≥576px, md ≥768px, lg ≥992px, xl ≥1200px, xxl ≥1400px -->
+    <div class="row">
+      <div class="col-12 col-sm-6 col-lg-3">A</div>  <!-- 100% → 50% → 25% -->
+      <div class="col-12 col-sm-6 col-lg-3">B</div>
+      <div class="col-12 col-sm-6 col-lg-3">C</div>
+      <div class="col-12 col-sm-6 col-lg-3">D</div>
+    </div>
+
+
+Forms (mobile-first, accessible)
+
+<form class="container my-3 ms-0" action="/submit" method="post">
+  <div class="row g-3">
+    <div class="col-12 col-md-6">
+      <label for="name" class="form-label">Name</label>
+      <input id="name" name="name" type="text" class="form-control" required />
+    </div>
+    <div class="col-12 col-md-6">
+      <label for="email" class="form-label">Email</label>
+      <input id="email" name="email" type="email" class="form-control" required />
+    </div>
+    <div class="col-12">
+      <button class="btn btn-primary" type="submit">Submit</button>
+    </div>
+  </div>
+</form>
+
+
+Three equal columns with centered text, borders, and padding
+
+<div class="container text-center my-3 ms-0">
+  <div class="row justify-content-center align-items-start g-3">
+    <div class="col-lg-4 col-sm-6 border border-dark p-3">One of three columns</div>
+    <div class="col-lg-4 col-sm-6 border border-dark p-3">One of three columns</div>
+    <div class="col-lg-4 col-sm-6 border border-dark p-3">One of three columns</div>
+  </div>
+</div>
+
+Gutters on rows (g-*)
+<div class="row g-2 g-md-4">…</div> <!-- tighter on mobile, looser on md+ -->
+
+
+    <div class="row justify-content-start py-5 ms-0">
+          <div class="row align-items-start">
+            <div class="col-lg-3 col-sm-6">
+              One of three columns
+            </div>
+            <div class="col-lg-3 col-sm-6">
+              One of three columns
+            </div>
+            <div class="col-lg-3 col-sm-6">
+              One of three columns
+            </div>
+          </div>
+        </div>
+
+
+      An Ordered List:
+      <ol>
+        <li>x item</li>
+          <ul>
+            <li><a href="https://google.com" target="_blank">google</a></li>
+          </ul> 
+        <li>Second item</li>
+        <li>Third item</li>
+      </ol>
+
+      An Unordered List:
+      <ul>
+        <li>First item</li>
+        <li>Second item</li>
+        <li>Third item</li>
+      </ul> 
+
+      <h2>An example of an image</h2>
+
+
+      <img src="Ireland.jpg"
+          alt="Satellite view of Ireland" 
+          style="max-width: 40%; height: auto;" />
+
+      <h2>An example of links</h2>
+      <ul class ="spaced-list">
+        <li><a href="https://www.lucentpilates.com/" target="_blank">Visit lucentpilates</a></li>
+        <li><a href="Ireland.jpg">Visit Ireland</a></li>
+      </ul>
+
+      <h2>An example of a table </h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Plan</th>
+            <th>Price</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Basic</td>
+            <td>Free</td>
+          </tr>
+        </tbody>
+      </table>
+
+    <h2 class ="pt-3 ms-0">An example of a form</h2>
+      <form action="/submit" method="post">
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name" required />
+        <br /><br />
+        <input type="submit" value="Submit" />
+      </form>
+
+<div class="pt-3">Cards in a responsive grid</div>
+
+<div class="container my-4 ms-0">
+  <div class="row g-3"> <!-- g-* controls gutter spacing -->
+    <div class="col-12 col-sm-6 col-lg-4">
+      <div class="card h-100">
+        <img src="..." class="card-img-top" alt="">
+        <div class="card-body">
+          <h5 class="card-title">Title</h5>
+          <p class="card-text">Responsive card content.</p>
+          <a href="#" class="btn btn-primary">Action</a>
+        </div>
+      </div>
+    </div>
+    <!-- repeat columns -->
+  </div>
+</div>
+
+<div class="pt-3">Navbar</div>
+
+<nav class="navbar navbar-expand-lg bg-body-tertiary ms-0">
+  <div class="container">
+    <a class="navbar-brand" href="#">Brand</a>
+    <button class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#nav">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div id="nav" class="collapse navbar-collapse">
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item"><a class="nav-link active">Home</a></li>
+        <li class="nav-item"><a class="nav-link">Link</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+
+<div class="pt-3">Alerts & Buttons</div>
+      <button class="button" onclick="alert('Button clicked!')">Click Me</button>
+
+<div class="pt-3">Alerts & Buttons</div>
+
+    <div class="alert alert-primary">Heads up!</div>
+    <button class="btn btn-success">Click me</button>
+    <button class="btn btn-outline-secondary">Outline</button>
+
+    <!--The <script> tag for Bootstrap JS can go at the end of the body so it loads after the page content.-->
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+
+  </body>
+</html>
