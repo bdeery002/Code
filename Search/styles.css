@@ -32,10 +32,7 @@ html, body {
 }
 
 
-/* Center the form stack */
-form.stack {
-  align-items: center;
-}
+
 
 
 /* Row: horizontal layout for items */
@@ -63,12 +60,22 @@ form.stack {
   padding: 1rem;
 }
 
-/* Vertical stack */
+
+/* Create a vertical stack using Flexbox */
 .stack {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
+  display: flex;              /* Enable Flexbox layout on this container */
+  flex-direction: column;     /* Arrange child elements in a column (top to bottom) */
+  justify-content: center;    /* Center items along the main axis (vertical when using column) */
+  align-items: center;        /* Center items along the cross axis (horizontal when using column) */
+  gap: 1rem;                  /* Add consistent spacing between stacked items */
 }
+
+
+/* Center the form stack */
+form.stack {
+  align-items: center; 
+}
+
 
 /* Cluster: flexible grouping of items */
 
@@ -92,15 +99,21 @@ form.stack {
   flex-wrap: wrap;
   gap: 1rem;
 }
+
+
 .split > * {
   flex: 1 1 300px;
 }
 
+
+
+
+
 /* Center utility */
 .center {
   display: flex;
-  justify-content: center;
-  align-items: center;
+  justify-content: center; /* horizontal centering */
+  align-items: center; /* vertical centering */
 }
 
 /* Grid layout with coordinates */
