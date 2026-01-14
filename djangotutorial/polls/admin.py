@@ -8,6 +8,13 @@ class ChoiceInline(admin.TabularInline):
     extra = 3
 
 class QuestionAdmin(admin.ModelAdmin):
+    fieldsets = [
+        (None, {"fields": ["question_text"]}),
+        ("Date information", {"fields": ["pub_date"]}),
+    ]
+
+    inlines = [ChoiceInline]
+ 
     # This is the magic line that adds columns to your list view
     list_display = ["question_text", "pub_date", "was_published_recently"]
     
@@ -17,7 +24,7 @@ class QuestionAdmin(admin.ModelAdmin):
     # This adds a search bar at the top
     search_fields = ["question_text"]
     
-    inlines = [ChoiceInline]
+    
 
 # Register your models here.
 admin.site.register(Question, QuestionAdmin)

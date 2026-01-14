@@ -62,7 +62,7 @@ ROOT_URLCONF = "mysite.urls"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [],
+        "DIRS": [BASE_DIR / "templates"],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
@@ -131,4 +131,10 @@ USE_TZ = True
 
 STATIC_URL = "static/"
 
-CSRF_TRUSTED_ORIGINS = ["https://*.app.github.dev", "https://*.github.dev"]
+CSRF_TRUSTED_ORIGINS = [
+    "https://*.app.github.dev", 
+    "https://*.github.dev",
+    "https://localhost:8080",
+    "http://localhost:8080",
+    "http://127.0.0.1:8080"
+]
