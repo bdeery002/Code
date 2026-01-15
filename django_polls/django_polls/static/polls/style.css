@@ -1,0 +1,29 @@
+
+li a {
+    color: blue;
+    font-size: 1.0rem;
+}
+
+
+body {
+    background: white;
+    background-size: cover;
+    background-attachment: fixed;
+}
+
+.poll-actions {
+    margin-top: 20px;
+    border-top: 1px solid #ccc;
+    padding-top: 10px;
+}
+
+.action-link {
+    display: block;    /* This puts them on new lines */
+    padding: 8px 0;    /* Adds clickable space between them */
+    text-decoration: none;
+    color: blue;    /* Django-style dark blue */
+}
+
+.action-link:hover {
+    color: #44b78b;    /* Django-style green */
+}

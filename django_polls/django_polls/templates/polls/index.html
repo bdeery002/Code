@@ -7,7 +7,12 @@
         <ul class="list-group mb-4">
         {% for question in latest_question_list %}
             <li class="list-group-item">
-                <a href="{% url 'polls:detail' question.id %}">{{ question.question_text }}</a>
+                <strong>{{ question.question_text }}</strong>
+                <br>
+                <small>
+                    <a href="{% url 'polls:detail' question.id %}">Vote Now</a> | 
+                    <a href="{% url 'polls:results' question.id %}">View Results</a>
+                </small>
             </li>
         {% endfor %}
         </ul>
