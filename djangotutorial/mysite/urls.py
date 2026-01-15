@@ -22,7 +22,9 @@ from django.views.generic import RedirectView
 
 urlpatterns = [
     path("", RedirectView.as_view(url="/polls/", permanent=False)),
-    path("polls/", include("polls.urls")),
+    path("polls/", include("django_polls.urls")),
     path("admin/", admin.site.urls),
+    # Add this line to handle the calendar
+    path('schedule/', include('schedule.urls'), name='calendar'),
 ]
 

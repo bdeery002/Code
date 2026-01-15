@@ -1,0 +1,25 @@
+{% extends "polls/base.html" %}
+
+{% block content %}
+    <h1>Latest Questions</h1>
+
+    {% if latest_question_list %}
+        <ul class="list-group mb-4">
+        {% for question in latest_question_list %}
+            <li class="list-group-item">
+                <a href="{% url 'polls:detail' question.id %}">{{ question.question_text }}</a>
+            </li>
+        {% endfor %}
+        </ul>
+    {% else %}
+        <p>No polls are available.</p>
+    {% endif %}
+
+    <hr>
+    <div class="card p-4 text-center shadow-sm">
+        <h3>Need to schedule an event?</h3>
+        <p>Check our community calendar for available dates.</p>
+        <a href="/schedule/" class="btn btn-primary btn-lg">View Calendar</a>
+    </div>
+    <hr>
+{% endblock %}
