@@ -1,4 +1,4 @@
-.vscode/
-.DS_Store
-*.log
-Code/.git
+.venv/
+__pycache__/
+*.pyc
+.env

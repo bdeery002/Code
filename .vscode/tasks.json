@@ -1,0 +1,21 @@
+
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Style50: check current file",
+      "type": "shell",
+      "command": "style50 ${file}",
+      "presentation": { "reveal": "always", "panel": "dedicated", "clear": true },
+      "problemMatcher": [],
+      "group": { "kind": "build", "isDefault": true }   // <- this is key
+    },
+    {
+      "label": "Style50: check project",
+      "type": "shell",
+      "command": "style50 .",
+      "presentation": { "reveal": "always", "panel": "dedicated", "clear": true },
+      "problemMatcher": []
+    }
+  ]
+}
