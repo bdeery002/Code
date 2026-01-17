@@ -13,7 +13,7 @@ services:
     build: .  # 👈 Tells Docker to use the 'Dockerfile' in the current directory
     volumes:
       - .:/app
-      - .:/django_polls:/django_polls
+      - ../django_polls:/django_polls
     working_dir: /app
     ports:
       - "8081:8000"

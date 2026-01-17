@@ -131,7 +131,12 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/6.0/howto/static-files/
 
-STATIC_URL = "static/"
+STATIC_URL = 'static/'
+
+# This tells Django: "The CSS is located in this specific container folder"
+STATICFILES_DIRS = [
+    "/django_polls/django_polls/static",
+]
 
 CSRF_TRUSTED_ORIGINS = [
     "https://*.app.github.dev", 
