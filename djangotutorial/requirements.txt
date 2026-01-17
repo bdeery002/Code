@@ -1,6 +1,6 @@
 asgiref==3.11.0
 Django==6.0.1
--e git+https://github.com/bdeery002/Code.git@836560effa0c35d86ecc0f779f112d72bf41a0af#egg=django_polls&subdirectory=django_polls
+-e ./src/django-polls
 django5-scheduler==1.0.2
 icalendar==6.3.2
 psycopg2-binary==2.9.11
