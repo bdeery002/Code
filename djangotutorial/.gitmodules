@@ -1,0 +1,3 @@
+[submodule "src/django-polls"]
+	path = src/django-polls
+	url = https://github.com/bdeery002/django_polls

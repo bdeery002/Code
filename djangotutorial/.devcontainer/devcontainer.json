@@ -1,0 +1,31 @@
+{
+  "name": "Django + Postgres",
+  "dockerComposeFile": "docker-compose.yml",
+  "service": "app",
+  
+  // ⬇️ Open the whole repo so sibling projects like django_polls/ and flask/ are visible
+  "workspaceFolder": "/workspaces/Code/djangotutorial",
+
+  "forwardPorts": [8000, 5432],
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "ms-python.python",
+        "ms-python.vscode-pylance",
+        "batisteo.vscode-django"
+      ],
+
+  "settings": {
+        // Optional: point the Python extension at your Django venv if it’s stable
+        // If your venv is at djangotutorial/.venv, uncomment the next line:
+        // "python.defaultInterpreterPath": "/workspaces/Code/djangotutorial/.venv/bin/python",
+
+        // Nice-to-have: Run and Debug from the repo root
+        "terminal.integrated.cwd": "/workspaces/Code/djangotutorial"
+      }
+
+    }
+  },
+  "postCreateCommand": "sudo apt-get update && sudo apt-get install -y postgresql-client",
+  "remoteUser": "vscode"
+}
