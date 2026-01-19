@@ -1,0 +1,12 @@
+{% extends "encyclopedia/layout.html" %}
+
+{% block title %}
+    {{ title }}
+{% endblock %}
+
+{% block body %}
+    {# Render the converted Markdown content #}
+    <div class="entry-content">
+        {{ content|safe }}
+    </div>
+{% endblock %}
