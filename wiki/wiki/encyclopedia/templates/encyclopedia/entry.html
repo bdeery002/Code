@@ -9,4 +9,7 @@
     <div class="entry-content">
         {{ content|safe }}
     </div>
+
+    <hr>
+    <a href="{% url 'edit_entry' title %}" class="btn btn-secondary">Edit this Page</a>
 {% endblock %}

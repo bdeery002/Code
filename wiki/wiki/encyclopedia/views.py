@@ -1,5 +1,6 @@
 from markdown2 import Markdown  
 from django.shortcuts import render, redirect
+import random
 
 from . import util
 
@@ -58,3 +59,56 @@ def search(request):
         "results": results,
         "query": query
     })
+
+
+# View for creating a new encyclopedia entry
+def new_entry(request):
+    if request.method == "POST":
+        title = request.POST.get("title").strip()
+        content = request.POST.get("content").strip()
+
+        # Check if entry already exists
+        if util.get_entry(title) is not None:
+            return render(request, "encyclopedia/error.html", {
+                "message": "An entry with this title already exists!"
+            })
+        
+        # Save the new entry
+        util.save_entry(title, content)
+        
+        # Redirect the user to the newly created page
+        return redirect("entry", title=title)
+
+    # If request is GET, just show the form
+    return render(request, "encyclopedia/new_entry.html")
+
+# View for editing an existing encyclopedia entry
+def edit_entry(request, title):
+    if request.method == "POST":
+        # Get the updated content from the textarea
+        content = request.POST.get("content")
+        
+        # Save the updated content (util.save_entry overwrites existing files)
+        util.save_entry(title, content)
+        
+        # Redirect back to the entry's main page
+        return redirect("entry", title=title)
+
+    # If GET, fetch existing content to pre-populate the textarea
+    content = util.get_entry(title)
+    
+    return render(request, "encyclopedia/edit_entry.html", {
+        "title": title,
+        "content": content
+    })
+
+
+def random_page(request):
+    # 1. Get the list of all entry names
+    entries = util.list_entries()
+    
+    # 2. Randomly select one title from the list
+    selected_page = random.choice(entries)
+    
+    # 3. Redirect to the existing 'entry' view using that title
+    return redirect("entry", title=selected_page)
