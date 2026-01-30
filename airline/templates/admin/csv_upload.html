@@ -1,0 +1,26 @@
+{% extends "admin/base_site.html" %}
+{% block content %}
+
+<h1>{{ title }}</h1>
+
+<p>
+  <strong>Expected columns:</strong>
+  {{ expected_columns|join:", " }}
+</p>
+
+<p>
+  <a class="button" href="{{ download_url }}">Download CSV template</a>
+</p>
+
+<form method="post" enctype="multipart/form-data" style="margin-top: 16px;">
+  {% csrf_token %}
+  {{ form.as_p }}
+  <button type="submit" class="default">Upload</button>
+</form>
+
+<p style="margin-top: 16px; color: #666;">
+  Tip: Leave <em>Dry run</em> checked to validate first.
+  If any row fails, nothing is saved (all‑or‑nothing).
+</p>
+
+{% endblock %}
