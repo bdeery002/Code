@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hello</title>
+    <script>
+        function greet() {  
+        alert("Hello, Motherfucker!");
+        }
+
+        function goodbye() {
+            alert("Goodbye, Motherfucker!");
+        }
+
+        function hello (){
+                const heading = document.querySelector("h1");
+                if(heading.innerText === "Hello, World!") {
+                    heading.innerText = "Goodbye!";
+                } else {
+                    heading.innerText = "Hello, World!";
+                }
+        }
+       
+    </script>
+
+</head>
+<body>
+    <h1>Hello, World!</h1>
+    <button onclick="hello()">I'm polite</button>
+    <button onclick="greet()">Click Here</button>
+    <button onclick="goodbye()">Say Goodbye</button>
+</body>
+</html>

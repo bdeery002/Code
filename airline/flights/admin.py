@@ -8,7 +8,7 @@ from django.http import HttpResponse
 from django.shortcuts import redirect, render
 from django.urls import path, reverse
 
-from .models import Airport, Flight
+from .models import Airport, Flight, Passenger
 
 
 # ---------------------------
@@ -263,7 +263,7 @@ class AirportAdmin(ModelCsvAdminMixin, admin.ModelAdmin):
 
 @admin.register(Flight)
 class FlightAdmin(ModelCsvAdminMixin, admin.ModelAdmin):
-    list_display = ("origin", "destination", "duration")
+    list_display = ("id", "origin", "destination", "duration")
     search_fields = ("origin__code", "origin__city", "destination__code", "destination__city")
     list_filter = ("origin", "destination")
     autocomplete_fields = ("origin", "destination")
@@ -275,3 +275,15 @@ class FlightAdmin(ModelCsvAdminMixin, admin.ModelAdmin):
         "go_to_upload_csv",
         "export_selected_as_csv",
     )
+
+@admin.register(Passenger)
+class PassengerAdmin(ModelCsvAdminMixin, admin.ModelAdmin):
+    list_display = ("first_name", "last_name")
+    search_fields = ("first_name", "last_name")
+    filter_horizontal = ("flights",)
+
+    actions = (
+        "download_csv_template",
+        "go_to_upload_csv",
+        "export_selected_as_csv",
+    )   

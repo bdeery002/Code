@@ -42,4 +42,19 @@ class Flight(models.Model):
         self.full_clean()
         super().save(*args, **kwargs)
 
+class Passenger(models.Model):
+    first_name = models.CharField(max_length=100)
+    last_name = models.CharField(max_length=100)
+    flights = models.ManyToManyField(
+        Flight,
+        blank=True,
+        related_name="passengers",
+    )
 
+    class Meta:
+        ordering = ['last_name', 'first_name']
+        verbose_name = "Passenger"
+        verbose_name_plural = "Passengers"
+
+    def __str__(self):
+        return f"{self.first_name} {self.last_name}"
