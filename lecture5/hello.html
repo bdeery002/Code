@@ -1,34 +1,200 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hello</title>
-    <script>
-        function greet() {  
-        alert("Hello, Motherfucker!");
-        }
-
-        function goodbye() {
-            alert("Goodbye, Motherfucker!");
-        }
-
-        function hello (){
-                const heading = document.querySelector("h1");
-                if(heading.innerText === "Hello, World!") {
-                    heading.innerText = "Goodbye!";
-                } else {
-                    heading.innerText = "Hello, World!";
-                }
-        }
-       
-    </script>
-
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>JavaScript Essential Concepts - Complete Guide</title>
+	<link rel="stylesheet" href="styles.css">
+	<!-- defer makes script wait for DOM to load -->
+	<script type="module" src="js/main.js"></script>
 </head>
+
 <body>
-    <h1>Hello, World!</h1>
-    <button onclick="hello()">I'm polite</button>
-    <button onclick="greet()">Click Here</button>
-    <button onclick="goodbye()">Say Goodbye</button>
+	<div class="container">
+		<h1>15 Essential JavaScript Concepts for Web Development</h1>
+
+		<!-- ========================================
+    CONCEPT 1 & 2: querySelector & getElementById
+  ======================================== -->
+		<div class="demo-section">
+			<h3>1 & 2: querySelector() & getElementById()</h3>
+			<p class="demo-text">First paragraph</p>
+			<p class="demo-text">Second paragraph</p>
+			<div id="unique-div">I have a unique ID</div>
+			<button id="select-demo-btn">Select Elements</button>
+		</div>
+
+		<!-- ========================================
+     CONCEPT 3: Form Handling with preventDefault
+     ======================================== -->
+		<div class="demo-section">
+			<h3>3: Form Handling (preventDefault)</h3>
+			<form id="contact-form">
+				<input type="text" id="name-input" placeholder="Your name" required>
+				<input type="email" id="email-input" placeholder="Your email" required>
+				<button type="submit">Submit Form</button>
+			</form>
+			<div id="form-result"></div>
+		</div>
+
+		<!-- ========================================
+		CONCEPT 4: Getting/Setting Input Values
+     ======================================== -->
+		<div class="demo-section">
+			<h3>4: Input Values & Real-time Validation</h3>
+			<input type="text" id="username-input" placeholder="Username (min 3 chars)">
+			<p id="username-feedback"></p>
+			<input type="password" id="password-input" placeholder="Password">
+			<button id="show-values-btn">Show Input Values</button>
+			<div id="values-output"></div>
+		</div>
+
+		<!-- ========================================
+CONCEPT 5: classList (add/remove/toggle)
+======================================== -->
+		<div class="demo-section">
+			<h3>5: classList Methods</h3>
+			<div id="box" class="box">Click buttons to change my classes</div>
+			<button id="add-class-btn">Add Highlight</button>
+			<button id="remove-class-btn">Remove Highlight</button>
+			<button id="toggle-class-btn">Toggle Active</button>
+			<p id="class-status"></p>
+		</div>
+
+		<!-- ========================================
+CONCEPT 6 & 7: createElement & appendChild
+======================================== -->
+		<div class="demo-section">
+			<h3>6 & 7: createElement() & appendChild()</h3>
+			<input type="text" id="todo-input" placeholder="Add a todo item">
+			<button id="add-todo-btn">Add Todo</button>
+			<ul id="todo-list"></ul>
+		</div>
+
+		<!-- ========================================
+CONCEPT 8: Removing Elements
+======================================== -->
+		<div class="demo-section">
+			<h3>8: Removing Elements (Event Delegation)</h3>
+			<p>Click any item above to delete it (uses event delegation)</p>
+		</div>
+
+		<!-- ========================================
+CONCEPT 9: Show/Hide Elements
+======================================== -->
+		<div class="demo-section">
+			<h3>9: Show/Hide Elements</h3>
+			<button id="modal-toggle-btn">Open Modal</button>
+			<div id="modal" class="modal" style="display: none;">
+				<div class="modal-content">
+					<h2>This is a Modal!</h2>
+					<p>Press ESC or click the button to close</p>
+					<button id="modal-close-btn">Close Modal</button>
+				</div>
+			</div>
+		</div>
+
+		<!-- ========================================
+		CONCEPT 10: Data Attributes
+		======================================== -->
+		<div class="demo-section">
+			<h3>10: Data Attributes (dataset)</h3>
+			<button class="product-btn" data-product-id="101" data-product-name="Laptop" data-price="999">
+				Product 1
+			</button>
+			<button class="product-btn" data-product-id="102" data-product-name="Phone" data-price="599">
+				Product 2
+			</button>
+			<button class="product-btn" data-product-id="103" data-product-name="Tablet" data-price="399">
+				Product 3
+			</button>
+			<div id="product-info"></div>
+		</div>
+
+		<!-- ========================================
+			CONCEPT 11: Keyboard Events
+	======================================== -->
+		<div class="demo-section">
+			<h3>11: Keyboard Events</h3>
+			<input type="text" id="keyboard-input" placeholder="Type something... try Enter or Escape">
+			<div id="key-display"></div>
+			<p><em>Global: Press 'h' anywhere on the page</em></p>
+		</div>
+
+		<!-- ========================================
+		CONCEPT 12: Fetch API
+		 ======================================== -->
+		<div class="demo-section">
+			<h3>12: Fetch API (Getting Data from Server)</h3>
+			<button id="fetch-users-btn">Fetch Random Users</button>
+			<button id="fetch-quote-btn">Fetch Random Quote</button>
+			<div id="fetch-result"></div>
+		</div>
+
+		<!-- ========================================
+		CONCEPT 13: LocalStorage
+   ======================================== -->
+		<div class="demo-section">
+			<h3>13: LocalStorage (Persistent Data)</h3>
+			<input type="text" id="storage-input" placeholder="Enter text to save">
+			<button id="save-storage-btn">Save to LocalStorage</button>
+			<button id="load-storage-btn">Load from LocalStorage</button>
+			<button id="clear-storage-btn">Clear LocalStorage</button>
+			<div id="storage-display"></div>
+		</div>
+
+		<!-- ========================================
+		CONCEPT 14: setTimeout & setInterval
+  ======================================== -->
+		<div class="demo-section">
+			<h3>14: setTimeout & setInterval (Timers)</h3>
+			<button id="timeout-btn">Show Alert in 3 Seconds</button>
+			<button id="start-counter-btn">Start Counter</button>
+			<button id="stop-counter-btn">Stop Counter</button>
+			<div id="counter-display">Counter: 0</div>
+		</div>
+
+		<!-- ========================================
+   CONCEPT 15: Scroll Events
+======================================== -->
+		<div class="demo-section">
+			<h3>15: Scroll Events</h3>
+			<div id="scroll-status">Scroll position: 0px</div>
+			<button id="scroll-to-top-btn">Scroll to Top</button>
+			<div style="height: 500px; background: linear-gradient(to bottom, #f0f0f0, #d0d0d0);">
+				<p style="padding: 20px;">Scroll down to see scroll tracking in action!</p>
+			</div>
+		</div>
+
+		<!-- ========================================
+    CONCEPT 16: CS50 Counter
+    ======================================== -->
+		<div class="demo-section">
+			<h3 id="counter-title">16: CS50 Counter Demo</h3>
+			<p id="CS50-counter-display">Count: 0</p>
+			<button id="Increase-count-btn">Increase Count</button>
+			<button id="Decrease-count-btn">Decrease Count</button>
+			<button id="Reset-count-btn">Reset Count</button>
+		</div>
+
+		<div class="demo-section">
+			<h3 id="CS50-title">17: CS50 Hello</h3>
+			<p id="CS50-hello-display">Hello, CS50!</p>
+			<button id="CS50-hello-btn">Say Hello</button>
+		</div>
+
+		<div class="demo-section">
+			<h3 id="CS50-officialcounter-title">18: CS50 Official Counter</h3>
+			<p id="CS50-officialcounter-display">Count: 0</p>
+			<button id="CS50-officialcounterincr-btn">Count</button>
+			<button id="CS50-officialcounterdecr-btn">Decrement</button>
+		</div>
+
+	</div>
+
+	<!-- Back to top button (appears on scroll) -->
+	<button id="back-to-top" class="back-to-top" style="display: none;">↑</button>
 </body>
-</html>
+
+</html>>
