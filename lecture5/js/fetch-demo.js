@@ -39,22 +39,13 @@ export function initFetchDemo() {
       });
   });
 
+// Handle Quote Fetch
   fetchQuoteBtn.addEventListener("click", () => {
     fetchResult.innerHTML = "<p>Loading quote...</p>";
-
-    fetch("https://api.quotable.io/random")
-      .then((response) => response.json())
-      .then((data) => {
-        fetchResult.innerHTML = `
-          <div style="padding: 20px; background: #fff3cd; border-radius: 5px; margin-top: 10px;">
-            <p style="font-size: 18px; font-style: italic;">"${data.content}"</p>
-            <p style="text-align: right;">— ${data.author}</p>
-          </div>
-        `;
-      })
-      .catch((error) => {
-        fetchResult.innerHTML = `<p style="color: red;">Error loading quote</p>`;
-        console.error("Error:", error);
-      });
+    fetch("https://zenquotes.io/api/random")
+      .then(res => res.json())
+      .then(([{ q, a }]) => fetchResult.innerHTML = quoteTemplate(q, a))
+      .catch(() => fetchResult.innerHTML = `<p style="color: red;">Error loading quote</p>`);
   });
+
 }

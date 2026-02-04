@@ -34,8 +34,10 @@ import { initStorageDemo } from "./storage-demo.js";
 import { initTimersDemo } from "./timers-demo.js";
 import { initScrollDemo } from "./scroll-demo.js";
 import { initCS50Counter } from "./cs50-counter.js";
-import { initCS50Hello } from "./CS50-hello.js";
+import { initCS50Hello } from "./cs50-hello.js";
 import { initCS50officialCounter } from "./cs50-officialcounter.js";
+import { initCS50InputForm } from "./cs50-inputform.js";
+import { initCS50ColorButtons } from "./cs50-color.js"; 
 
 // Wait until the HTML document is fully loaded
 
@@ -55,6 +57,8 @@ window.addEventListener("DOMContentLoaded", () => {
   initCS50Counter();
   initCS50Hello();
   initCS50officialCounter();
+  initCS50InputForm();
+  initCS50ColorButtons();
 
   console.log("✅ All concept modules initialized");
 });

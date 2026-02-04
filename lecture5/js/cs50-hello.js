@@ -1,6 +1,6 @@
 // CS50 hello
 
-function initCS50Hello() {
+export function initCS50Hello() {
   // 1. SELECTORS: Grab the HTML elements.
   const display = document.getElementById("CS50-hello-display");
   const helloBtn = document.getElementById("CS50-hello-btn");
@@ -26,5 +26,3 @@ function initCS50Hello() {
   });
 }
 
-// Export the module
-export { initCS50Hello };

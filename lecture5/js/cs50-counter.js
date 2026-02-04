@@ -1,6 +1,3 @@
-
-//CS 50 counter 
-
 // CS50 counter
 
 // CS50 counter module
