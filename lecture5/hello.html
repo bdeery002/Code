@@ -207,14 +207,38 @@ CONCEPT 9: Show/Hide Elements
     CONCEPT 17: CS50 color changer
     ======================================== -->
 		<div class="demo-section">
-		<h3>19: CS50 button</h3>
-			<button id="cs50button" data-color="Red">Red</button>
+		<h3 id="cs50-button-title">19: CS50 button</h3>
+		<select id="cs50-color-select">
+			<option value="">Select a color</option>
+			<option value="Red">Red</option>
+			<option value="Blue">Blue</option>	
+			<option value="Green">Green</option>
+		</select>
+		<div style="margin-top: 10px;">
+			<button id="cs50button1" data-color="Red">Red</button>
 			<button id="cs50button2" data-color="Blue">Blue</button>
 			<button id="cs50button3" data-color="Green">Green</button>
 	
 	</div>
 
 	</div>
+
+
+		<!-- ========================================
+    CONCEPT 18: CS50 todo list
+    ======================================== -->
+		<div class="demo-section">
+		<h3 id="cs50-todo-title">18: CS50 Todo List</h3>
+		<!--// Input and button to add new todo items-->
+		<input id="cs50-todo-input" placeholder="Enter a todo item" type="text">
+		<button id="cs50-todo-add-btn">Add Todo</button>
+		// The list of todo items will be added here
+		<ul id="cs50-todo-list"></ul>
+	</div>
+		
+
+</div>
+
 
 	<!-- Back to top button (appears on scroll) -->
 	<button id="back-to-top" class="back-to-top" style="display: none;">↑</button>
