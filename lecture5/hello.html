@@ -192,7 +192,7 @@ CONCEPT 9: Show/Hide Elements
 		</div>
 
 		<!-- ========================================
-    CONCEPT 17: CS50 form
+    CONCEPT 19: CS50 form
     ======================================== -->
 		<div class="demo-section">
 		<h3>19: CS50 Form</h3>
@@ -204,10 +204,10 @@ CONCEPT 9: Show/Hide Elements
 	</div>
 
 		<!-- ========================================
-    CONCEPT 17: CS50 color changer
+    CONCEPT 20: CS50 color changer
     ======================================== -->
 		<div class="demo-section">
-		<h3 id="cs50-button-title">19: CS50 button</h3>
+		<h3 id="cs50-button-title">20: CS50 button</h3>
 		<select id="cs50-color-select">
 			<option value="">Select a color</option>
 			<option value="Red">Red</option>
@@ -225,19 +225,33 @@ CONCEPT 9: Show/Hide Elements
 
 
 		<!-- ========================================
-    CONCEPT 18: CS50 todo list
+    CONCEPT 21: CS50 todo list
+    ======================================== -->
+	<div class="demo-section">
+		<h3 id="cs50-todo-title">21: CS50 Todo List</h3>
+		<ul id="cs50-todo-list"></ul>
+
+		<form id ="cs50-todo-form" style="margin-top: 10px;">
+			<input autofocus id="cs50-todo-input" placeholder="Enter a todo item" type="text">
+			<button id="cs50-todo-submit" type="submit" value="Add Todo"> Add </button>
+		</form>
+
+		<iframe id="cs50-todo-iframe" src="cs50_todo.html" style="width: 100%; height: 300px; border: 1px solid #ccc; margin-top: 20px;"></iframe>
+	</div>
+        
+		
+	<!-- ========================================
+    CONCEPT 23: CS50 Local Storage
     ======================================== -->
 		<div class="demo-section">
-		<h3 id="cs50-todo-title">18: CS50 Todo List</h3>
-		<!--// Input and button to add new todo items-->
-		<input id="cs50-todo-input" placeholder="Enter a todo item" type="text">
-		<button id="cs50-todo-add-btn">Add Todo</button>
-		// The list of todo items will be added here
-		<ul id="cs50-todo-list"></ul>
-	</div>
-		
+		<h3 id="cs50-local-storage-title">22: CS50 Local Storage</h3>
+		<ul id="cs50-local-storage-list"></ul>
 
-</div>
+		<form id ="cs50-local-storage-form" style="margin-top: 10px;">
+			<input autofocus id="cs50-local-storage-input" placeholder="Enter a todo item" type="text">
+			<button id="cs50-local-storage-btn" type="button">count</button>
+		</form>
+		</div>
 
 
 	<!-- Back to top button (appears on scroll) -->

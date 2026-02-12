@@ -13,6 +13,8 @@ export function initScrollDemo() {
   // If the page doesn’t have these elements, skip.
   if (!scrollStatus || !scrollToTopBtn || !backToTopBtn) return;
 
+  //windo.scrollY - current vertical scroll position. How far down the page the user has scrolled.
+  
   window.addEventListener("scroll", () => {
     const scrollPosition = window.scrollY;
     scrollStatus.textContent = `Scroll position: ${Math.round(scrollPosition)}px`;

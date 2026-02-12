@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CS50 Single Page Application</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        /* Hide all divs by default */
+        div {
+            margin: 20px;
+            display: none; 
+            padding: 10px;
+            background-color: lightgray;    
+        }
+    </style>
+
+    <script>
+        function showPage(pageId) {
+            // 1. Hide every div
+            document.querySelectorAll('div').forEach(div => {
+                div.style.display = 'none';
+            });
+
+            // 2. Show the specific page requested
+            document.querySelector(`#${pageId}`).style.display = 'block';
+        }
+
+        // Wait for the DOM to load before attaching events
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelectorAll('button').forEach(button => {
+                button.onclick = function() {
+                    // Get the page name from the data-page attribute
+                    showPage(this.dataset.page);
+                };
+            });
+        });
+    </script>
+</head>
+<body>
+    <button data-page="page1">Show Page 1</button>
+    <button data-page="page2">Show Page 2</button>
+    <button data-page="page3">Show Page 3</button>
+
+    <div id="page1">
+        <h1>This is page 1.</h1>
+    </div>
+
+    <div id="page2">
+        <h1>This is page 2.</h1>
+    </div>
+
+    <div id="page3">
+        <h1>This is page 3.</h1>
+    </div>
+</body>
+</html>

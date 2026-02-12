@@ -38,6 +38,8 @@ import { initCS50Hello } from "./cs50-hello.js";
 import { initCS50officialCounter } from "./cs50-officialcounter.js";
 import { initCS50InputForm } from "./cs50-inputform.js";
 import { initCS50ColorButtons } from "./cs50-color.js"; 
+import { initcs50todo } from "./cs50-todo.js";
+import { initcs50storage } from "./cs5-storage.js";
 
 // Wait until the HTML document is fully loaded
 
@@ -59,6 +61,8 @@ window.addEventListener("DOMContentLoaded", () => {
   initCS50officialCounter();
   initCS50InputForm();
   initCS50ColorButtons();
+  initcs50todo();
+  initcs50storage();
 
   console.log("✅ All concept modules initialized");
 });
