@@ -1,36 +1,41 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <title>Single Page</title>
-        <style>
-        </style>
-        <script>
+<head>
+    <meta charset="UTF-8">
+    <title>Single Page with HTMX 4</title>
+    <!-- Use an HTMX 4 alpha (check unpkg or jsDelivr for latest) -->
+    <script src="https://unpkg.com/htmx.org@4.0.0-alpha2"></script>
+</head>
+<body>
+    <h1>Hello!</h1>
 
-            function showSection(section) {
-                
-                fetch(`/sections/${section}`)
-                .then(response => response.text())
-                .then(text => {
-                    console.log(text);
-                    document.querySelector('#content').innerHTML = text;
-                });
-            }
+    <button 
+        hx-get="/sections/1" 
+        hx-target="#content" 
+        hx-swap="innerHTML"
+        hx-push-url="true"           <!-- pushes /sections/1 (or use "/section/1" if you add route) -->
+    >
+        Section 1
+    </button>
 
-            document.addEventListener('DOMContentLoaded', function() {
-                document.querySelectorAll('button').forEach(button => {
-                    button.onclick = function() {
-                        showSection(this.dataset.section);
-                    };
-                });
-            });
-        </script>
-    </head>
-    <body>
-        <h1>Hello!</h1>
-        <button data-section="1">Section 1</button>
-        <button data-section="2">Section 2</button>
-        <button data-section="3">Section 3</button>
-        <div id="content">
-        </div>
-    </body>
+    <button 
+        hx-get="/sections/2" 
+        hx-target="#content" 
+        hx-swap="innerHTML"
+        hx-push-url="true"
+    >
+        Section 2
+    </button>
+
+    <button 
+        hx-get="/sections/3" 
+        hx-target="#content" 
+        hx-swap="innerHTML"
+        hx-push-url="true"
+    >
+        Section 3
+    </button>
+
+    <div id="content"></div>
+</body>
 </html>

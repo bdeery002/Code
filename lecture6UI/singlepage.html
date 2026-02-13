@@ -11,36 +11,45 @@
         }
         /* Hide all divs by default */
         div {
-            margin: 20px;
-            display: none; 
-            padding: 10px;
-            background-color: lightgray;    
+            display: none;        
         }
     </style>
 
     <script>
-        function showPage(pageId) {
+
+        // Most developers put things in this order for readability:
+        // All function declarations first
+        // Then DOMContentLoaded (or just attach events directly if script is at bottom)
+
+           
+
+        function showPage(page) {
             // 1. Hide every div
+            //// This whole block runs first and must finish
             document.querySelectorAll('div').forEach(div => {
                 div.style.display = 'none';
             });
 
             // 2. Show the specific page requested
-            document.querySelector(`#${pageId}`).style.display = 'block';
+            // Only after step 1 is completely finished does this line run
+            document.querySelector(`#${page}`).style.display = 'block';
         }
 
-        // Wait for the DOM to load before attaching events
-        document.addEventListener('DOMContentLoaded', function() {
-            document.querySelectorAll('button').forEach(button => {
-                button.onclick = function() {
-                    // Get the page name from the data-page attribute
-                    showPage(this.dataset.page);
-                };
+        // Attach listeners once the DOM is ready
+        document.addEventListener('DOMContentLoaded', () => {
+            //loop over all buttons with a data-page attribute and attach a click listener to each
+            // When a button is clicked, call showPage with the value of the data-page attribute
+            document.querySelectorAll('button[data-page]').forEach(btn => {
+                btn.addEventListener('click', () => {
+                showPage(btn.dataset.page);
+             });
             });
-        });
+         });
+
     </script>
 </head>
 <body>
+    <!--Use data attributes to specify which page to show when a button is clicked-->
     <button data-page="page1">Show Page 1</button>
     <button data-page="page2">Show Page 2</button>
     <button data-page="page3">Show Page 3</button>
