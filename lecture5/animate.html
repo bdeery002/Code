@@ -17,40 +17,40 @@
             }
 
             @keyframes grow {
-                0% {
-                    font-size: 24px;
-                    color: #333;
-                }
-                50% {
-                    font-size: 48px;
-                    color: #007BFF;
-                }
-                100% {
-                    font-size: 36px;
-                    color: #333;
-                }
-            } 
+            0% {
+                font-size: 24px;
+                color: #333;
+                left: 0;           /* assuming you want to animate position too */
+            }
+            50% {
+                font-size: 48px;
+                color: #007BFF;
+                left: 50%;         /* ← fixed: added % unit – adjust as needed */
+            }
+            100% {
+                font-size: 36px;
+                color: #333;
+                left: 0;           /* or whatever end position you want */
+               
+            }
+        }
     </style>
 
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const heading = document.querySelector('h1');
-            heading.style.animationPlayState = 'paused';
+    document.addEventListener('DOMContentLoaded', () => {
+        const heading = document.querySelector('h1');
+        heading.style.animationPlayState = 'paused'; // start paused
 
-            document.querySelector('button').addEventListener('click', () => {
-                if(heading.style.animationPlayState === 'paused') {
-                    heading.style.animationPlayState = 'running';
-                } else {
-                    heading.style.animationPlayState = 'paused';
-                }
-            });     
-            
+        document.querySelector('button').addEventListener('click', () => {
+            heading.style.animationPlayState =
+                heading.style.animationPlayState === 'paused' ? 'running' : 'paused';
         });
+    });
 
     </script>
 </head>
 <body>
-    <button onclick="animateText()">Click here</button>
+    <button>Click here</button>
     <h1>Welcome to the Animated Page!</h1>
 
 
