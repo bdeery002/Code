@@ -8,24 +8,27 @@ jobs:
 
     defaults:
       run:
-        working-directory: lecture7/airline0
+        working-directory: lecture7/airline0   # Fixed placement: under job, not inside a step
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+        # No env or with: needed for safe.directory — default handles it
 
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
-          python-version: '3.12'
-
-      - name: Fix git safe directory (if needed)
-        run: git config --global --add safe.directory "$GITHUB_WORKSPACE"
+          python-version: '3.12'   # or '3.x' for latest 3.12/3.13
 
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
           pip install django
+          # If you have a requirements.txt:   pip install -r requirements.txt
+
+      - name: Run migrations (if your tests need DB schema)
+        run: python manage.py migrate
+        # Optional — skip if using in-memory DB or tests don't need it
 
       - name: Run Django unit tests
         run: python manage.py test
