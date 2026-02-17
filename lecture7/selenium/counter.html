@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Counter</title>
+        <script>
+            document.addEventListener('DOMContentLoaded', () => {
+                let counter = 0;
+                const counterDisplay = document.querySelector('#counter');
+                const increaseBtn = document.querySelector('#increase');
+                const decreaseBtn = document.querySelector('#decrease');
+
+                function updateDisplay() {
+                    counterDisplay.textContent = counter;
+                }
+
+                increaseBtn.addEventListener('click', () => {
+                    counter++;
+                    updateDisplay();
+                });
+
+                decreaseBtn.addEventListener('click', () => {
+                    counter--;
+                    updateDisplay();
+                });
+            });
+        </script>
+    </head>
+    <body>
+        <h1 id="counter">0</h1>
+        <button id="increase" aria-label="Increase counter">+</button>
+        <button id="decrease" aria-label="Decrease counter">-</button>
+    </body>
+</html>
