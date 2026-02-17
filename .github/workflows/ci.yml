@@ -5,15 +5,19 @@ on: [push]
 jobs:
   test_project:
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: lecture7/airline0
-        
+    
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4  # Updated to v4 (latest stable)
+        uses: actions/checkout@v4
+
+      # ADD THIS STEP: Fixes the Git 128 Error
+      - name: Fix git safe directory
+        run: git config --global --add safe.directory /home/runner/work/Code/Code
 
       - name: Run Django unit tests
+        defaults:
+          run:
+            working-directory: lecture7/airline0
         run: |
           pip3 install django
           python3 manage.py test
