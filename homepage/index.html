@@ -1,229 +1,187 @@
+<!--python3 -m http.server 8000-->
 
 <!DOCTYPE html>
-<html lang="en" data-bs-theme="light">
+<html lang="en">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <!-- Bootstrap 5.3.3 -->
-    <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
-      rel="stylesheet"
-      integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
-      crossorigin="anonymous"
-    />
-    <script
-      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-      integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
-      crossorigin="anonymous"
-      defer
-    ></script>
 
-    <!-- Your styles -->
-    <link href="styles.css" rel="stylesheet" />
+    <!-- HTMX loads HTMX-->
+    <script src="https://unpkg.com/htmx.org@1.9.12" defer></script>
+
+    <!-- JavaScript -->
+    <script>
+      document.addEventListener('DOMContentLoaded', () => {
+        // Navbar toggle
+        const toggle = document.querySelector('.nav-toggle');
+        const navLinks = document.getElementById('mainNav');
+        toggle.addEventListener('click', () => {
+          const open = navLinks.classList.toggle('open');
+          toggle.setAttribute('aria-expanded', open);
+        });
+
+        // Modal open/close
+        const modal = document.getElementById('videoModal');
+        document.querySelector('[data-open="videoModal"]').addEventListener('click', () => modal.showModal());
+        document.querySelector('[data-close="videoModal"]').addEventListener('click', () => modal.close());
+
+        // Pause video when modal closes
+        modal.addEventListener('close', () => {
+          const v = modal.querySelector('video');
+          if (v) v.pause();
+        });
+      });
+    </script>
+
+    <!-- Styles -->
+    <link href="css/base.css" rel="stylesheet" />
+    <link href="css/layout.css" rel="stylesheet" />
+    <link href="css/components.css" rel="stylesheet" />
+    <link href="css/index.css" rel="stylesheet" />
 
     <title>Brendan Deery — Homepage</title>
   </head>
   <body>
     <!-- Site-wide navbar -->
-    <nav class="navbar navbar-expand-lg bg-body-tertiary shadow-sm">
+    <nav class="navbar">
       <div class="container">
-        <a class="navbar-brand d-flex align-items-center" href="index.html">
+        <a class="navbar-brand" href="index.html">
           <img
             src="https://picsum.photos/seed/brendan/48"
             alt="BD avatar"
-            class="rounded-circle me-2 avatar"
+            class="avatar"
             width="36"
             height="36"
           />
           <span class="brand-title">BD</span>
         </a>
-        <button
-          class="navbar-toggler"
-          type="button"
-          data-bs-toggle="collapse"
-          data-bs-target="#mainNav"
-          aria-controls="mainNav"
-          aria-expanded="false"
-          aria-label="Toggle navigation"
-        >
-          <span class="navbar-toggler-icon"></span>
+
+        <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false" aria-controls="mainNav">
+          &#9776;
         </button>
 
-        <div class="collapse navbar-collapse" id="mainNav">
-          <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-            <li class="nav-item"><a class="nav-link" href="about.html">About</a></li>
-            <li class="nav-item"><a class="nav-link" href="hobbies.html">Hobbies</a></li>
-            <li class="nav-item"><a class="nav-link" href="projects.html">Projects</a></li>
-            <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
-          </ul>
-          <button id="themeToggle" class="btn btn-outline-primary ms-lg-3" type="button" aria-label="Toggle theme">
-            🌞 Light
-          </button>
+        <div class="nav-links" id="mainNav">
+          <a href="about.html">About</a>
+          <a href="hobbies.html">Hobbies</a>
+          <a href="projects.html">Projects</a>
+          <a href="contact.html">Contact</a>
         </div>
       </div>
     </nav>
 
-    <!-- Greeting alert injected by JS -->
-    <div id="greeting" class="container mt-3"></div>
-
     <!-- Hero -->
-    <header class="hero py-5">
+    <header class="hero">
       <div class="container text-center">
-        <h1 class="display-5 fw-bold">Hello, I’m Brendan 👋</h1>
-        <p class="lead mx-auto">
+        <h1>Hello, I'm Brendan </h1>
+        <p class="lead">
           Senior Manager, IT Internal Audit in Castro Valley, CA. I enjoy running, climbing,
-          and learning new tech—currently CS50 and SQL Server.
+          and learning new tech.
         </p>
-        <div class="d-flex justify-content-center gap-2 mt-3">
-          <a class="btn btn-primary btn-lg" href="about.html">Learn more</a>
-          <a class="btn btn-outline-secondary btn-lg" href="projects.html">See projects</a>
+        <div class="btn-group">
+          <a class="btn btn-primary" href="about.html">Learn more</a>
+          <a class="btn btn-outline" href="projects.html">See projects</a>
         </div>
       </div>
     </header>
 
     <!-- Feature cards -->
-    <main class="container my-5">
+    <main class="container">
       <section aria-labelledby="section-quicklinks">
         <h2 id="section-quicklinks" class="section-title">Quick links</h2>
-        <div class="row g-4">
-          <article class="col-12 col-md-6 col-lg-3">
-            <div class="card h-100">
-              <img src="https://picsum.photos/seed/about/600/400" class="card-img-top" alt="About preview" />
-              <div class="card-body">
-                <h3 class="card-title h5">About</h3>
-                <p class="card-text">Background, experience, and what I’m learning now.</p>
-                <a href="about.html" class="btn btn-sm btn-primary">Open</a>
-              </div>
+        <div class="card-grid">
+          <article class="card">
+            <img src="https://picsum.photos/seed/about/600/400" class="card-img" alt="About preview" />
+            <div class="card-body">
+              <h3 class="card-title">About</h3>
+              <p>Background, experience, and what I'm learning now.</p>
+              <a href="about.html" class="btn btn-primary btn-sm">Open</a>
             </div>
           </article>
 
-          <article class="col-12 col-md-6 col-lg-3">
-            <div class="card h-100">
-              <img src="https://picsum.photos/seed/hobbies/600/400" class="card-img-top" alt="Hobbies preview" />
-              <div class="card-body">
-                <h3 class="card-title h5">Hobbies</h3>
-                <p class="card-text">Running, climbing, and weightlifting for conditioning.</p>
-                <a href="hobbies.html" class="btn btn-sm btn-primary">Open</a>
-              </div>
+          <article class="card">
+            <img src="https://picsum.photos/seed/hobbies/600/400" class="card-img" alt="Hobbies preview" />
+            <div class="card-body">
+              <h3 class="card-title">Hobbies</h3>
+              <p>Running, climbing, and weightlifting for conditioning.</p>
+              <a href="hobbies.html" class="btn btn-primary btn-sm">Open</a>
             </div>
           </article>
 
-          <article class="col-12 col-md-6 col-lg-3">
-            <div class="card h-100">
-              <img src="https://picsum.photos/seed/projects/600/400" class="card-img-top" alt="Projects preview" />
-              <div class="card-body">
-                <h3 class="card-title h5">Projects</h3>
-                <p class="card-text">Coursework and analytics projects I’m tinkering with.</p>
-                <a href="projects.html" class="btn btn-sm btn-primary">Open</a>
-              </div>
+          <article class="card">
+            <img src="https://picsum.photos/seed/projects/600/400" class="card-img" alt="Projects preview" />
+            <div class="card-body">
+              <h3 class="card-title">Projects</h3>
+              <p>Coursework and analytics projects I'm tinkering with.</p>
+              <a href="projects.html" class="btn btn-primary btn-sm">Open</a>
             </div>
           </article>
 
-          <article class="col-12 col-md-6 col-lg-3">
-            <div class="card h-100">
-              <img src="https://picsum.photos/seed/contact/600/400" class="card-img-top" alt="Contact preview" />
-              <div class="card-body">
-                <h3 class="card-title h5">Contact</h3>
-                <p class="card-text">Say hello or send feedback via the contact form.</p>
-                <a href="contact.html" class="btn btn-sm btn-primary">Open</a>
-              </div>
+          <article class="card">
+            <img src="https://picsum.photos/seed/contact/600/400" class="card-img" alt="Contact preview" />
+            <div class="card-body">
+              <h3 class="card-title">Contact</h3>
+              <p>Say hello or send feedback via the contact form.</p>
+              <a href="contact.html" class="btn btn-primary btn-sm">Open</a>
             </div>
           </article>
         </div>
       </section>
 
-   
-<!-- Featured Video (Local HTML5 video, portrait-safe, show first frame) -->
-<section id="featured-video" class="mt-5" aria-labelledby="section-video">
-  <h2 id="section-video" class="section-title">Featured Video</h2>
+      <!-- Featured Video -->
+      <section id="featured-video" aria-labelledby="section-video">
+        <h2 id="section-video" class="section-title">Featured Video</h2>
 
-  <!-- Inline portrait player -->
-  <div class="d-flex justify-content-center">
-    <video
-      id="nessaInline"
-      src="videos/Nessa.MP4"
-      controls
-      controlslist="nofullscreen"
-      preload="metadata"
-      playsinline
-      class="portrait-video"
-      style="object-fit: contain; background:black; border-radius:8px;"
-    >
-      Your browser does not support the video tag.
-    </video>
-  </div>
+        <div class="video-center">
+          <video
+            id="nessaInline"
+            src="videos/Nessa.MP4"
+            controls
+            controlslist="nofullscreen"
+            preload="metadata"
+            playsinline
+            class="portrait-video"
+          >
+            Your browser does not support the video tag.
+          </video>
+        </div>
 
-  <!-- Button to open modal -->
-  <div class="text-center mt-3">
-    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#videoModal">
-      Watch in Modal
-    </button>
-  </div>
+        <div class="text-center">
+          <button class="btn btn-primary" data-open="videoModal">Watch in Modal</button>
+        </div>
 
-  <p class="text-muted mt-2 text-center">
-    Portrait video stays intact (no stretching or rotation). First frame is shown before playback.
-  </p>
-</section>
-
-<!-- Bootstrap Modal -->
-<div class="modal fade" id="videoModal" tabindex="-1" aria-labelledby="videoModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered modal-lg">
-    <div class="modal-content bg-black">
-      <div class="modal-header border-0">
-        <h2 class="h5 modal-title text-white" id="videoModalLabel">Featured Video</h2>
-        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body d-flex justify-content-center">
-        <video
-          id="nessaModal"
-          src="videos/Nessa.MP4"
-          controls
-          controlslist="nofullscreen"
-          preload="metadata"
-          playsinline
-          class="portrait-video"
-          style="object-fit: contain; background:black; border-radius:8px;"
-        >
-          Your browser does not support the video tag.
-        </video>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- JS: Pause inline when modal opens, pause modal when closed -->
-<script>
-  document.addEventListener('DOMContentLoaded', () => {
-    const inlineVid = document.getElementById('nessaInline');
-    const modalVid  = document.getElementById('nessaModal');
-    const modalEl   = document.getElementById('videoModal');
-
-    if (inlineVid && modalVid && modalEl) {
-      modalEl.addEventListener('show.bs.modal', () => {
-        inlineVid.pause();
-        // Optional: sync time
-        // modalVid.currentTime = inlineVid.currentTime;
-      });
-      modalEl.addEventListener('hide.bs.modal', () => {
-        modalVid.pause();
-      });
-    }
-  });
-</script>
-
-
-    
-
-
-   <!-- Rotating quote driven by JS -->
-      <section class="mt-5" aria-labelledby="section-quote">
-        <h2 id="section-quote" class="section-title">Quote</h2>
-        <figure class="text-center">
-          <blockquote class="blockquote">
-            <p id="quote" class="mb-0">Loading motivational quote…</p>
-          </blockquote>
-          <figcaption class="blockquote-footer">
-            Updated every few seconds for a little nudge
-          </figcaption>
-        </figure>
+        <p class="text-muted text-center">
+          Portrait video stays intact (no stretching or rotation).
+        </p>
       </section>
+
+      <!-- Native HTML <dialog> -->
+      <dialog id="videoModal" aria-labelledby="videoModalLabel">
+        <div class="modal-header">
+          <h2 id="videoModalLabel">Featured Video</h2>
+          <button class="btn-close" data-close="videoModal" aria-label="Close">&times;</button>
+        </div>
+        <div class="modal-body">
+          <video
+            src="videos/Nessa.MP4"
+            controls
+            preload="metadata"
+            playsinline
+            class="portrait-video"
+          >
+            Your browser does not support the video tag.
+          </video>
+        </div>
+      </dialog>
+
+    </main>
+
+    <footer class="site-footer">
+      <div class="container">
+        <small>&copy; <span id="year"></span> Brendan Deery</small>
+      </div>
+    </footer>
+
+  </body>
+</html>
+
+

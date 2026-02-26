@@ -25,12 +25,11 @@ html, body {
 /* Full-screen center zone (hero sections, modals) */
 
 .center-screen {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 100dvh;
+    display: flex;
+      justify-content: center;
+        align-items: center;
+          min-height: 100dvh;
 }
-
 
 
 
@@ -56,6 +55,7 @@ html, body {
 /* Utility: container with max width for readability */
 .container {
   width: min(90%, 1200px);
+  align-items: center;
   margin-inline: auto;
   padding: 1rem;
 }
@@ -73,6 +73,7 @@ html, body {
 
 /* Center the form stack */
 form.stack {
+  width: 100%;
   align-items: center; 
 }
 
@@ -82,7 +83,7 @@ form.stack {
 .cluster {
   display: flex;
   gap: 1rem;
-  justify-content: center;
+  justify-content: right;
 }
 
 
@@ -211,8 +212,8 @@ form.stack {
 */
 
 .search-input {
-  width: 80%;
-  max-width: 400px;
+  width: 90%;
+  max-width: 650px;
   margin: 0 auto;    /* centers horizontally */
   padding: 0.75rem 1rem;       /* Adds height and horizontal space */
   font-size: 1rem;             /* Comfortable text size */
@@ -263,4 +264,3 @@ ul > li {
 button:hover {
   background-color: red;
 }
-``

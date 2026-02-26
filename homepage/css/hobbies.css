@@ -1,0 +1,49 @@
+/* ---- hobbies.html ---- */
+
+.hobby-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.5rem;
+}
+
+@media (max-width: 768px) {
+  .hobby-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.hobby-card {
+  background: #fff;
+  color: var(--text);
+  border-radius: var(--radius);
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.5rem;
+}
+
+.hobby-card h2 {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.hobby-card p {
+  color: var(--text-muted);
+  font-size: 0.95rem;
+}
+
+ul.hobby-list {
+  list-style: disc;
+  padding-left: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  font-size: 0.9rem;
+}
+
+ul.hobby-list li::marker {
+  color: var(--brand);
+}

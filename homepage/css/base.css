@@ -1,0 +1,49 @@
+
+/* =========================
+   base.css
+   CSS variables & reset
+   ========================= */
+
+:root {
+  --brand:          #0d6efd;
+  --brand-dark:     #0a58ca;
+  --gradient-start: #e3f2fd;
+  --gradient-end:   #f8f9fa;
+  --text:           #212529;
+  --text-muted:     #6c757d;
+  --bg:             #ffffff;
+  --border:         #dee2e6;
+  --shadow-sm:      0 1px 3px rgba(0,0,0,0.08);
+  --shadow-md:      0 4px 12px rgba(0,0,0,0.10);
+  --shadow-lg:      0 8px 24px rgba(0,0,0,0.12);
+  --radius:         0.5rem;
+  --nav-height:     60px;
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif;
+  line-height: 1.6;
+  color: var(--text);
+  background: var(--bg);
+}
+
+img {
+  display: block;
+  max-width: 100%;
+}
+
+a {
+  color: var(--brand);
+  text-decoration: none;
+}
+
+a:hover {
+  color: var(--brand-dark);
+  text-decoration: underline;
+}
