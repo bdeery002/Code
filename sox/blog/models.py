@@ -27,6 +27,7 @@ class EntryProposal(models.Model):
     status = models.CharField(max_length=10, choices=STATUS_CHOICES, default='pending')
     created_at = models.DateTimeField(auto_now_add=True)
     admin_notes = models.TextField(blank=True)
+    send_rejection_email = models.BooleanField(default=False)
 
     def __str__(self):
         return f"Proposal: {self.proposed_title} ({self.status})"
