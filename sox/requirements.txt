@@ -1,0 +1,4 @@
+django
+psycopg2
+dj-database-url
+markdown2

@@ -1,0 +1,14 @@
+{% extends "blog/layout.html" %}
+
+{% block title %}Proposal Submitted{% endblock %}
+
+{% block body %}
+    <div class="proposal-confirmation">
+        <h1>Thank you!</h1>
+        <p>Your proposal has been submitted and will be reviewed shortly.</p>
+        <p>If approved, your changes will appear on the site.</p>
+        <div class="form-actions">
+            <a href="{% url 'index' %}" class="btn-save">Back to Home</a>
+        </div>
+    </div>
+{% endblock %}

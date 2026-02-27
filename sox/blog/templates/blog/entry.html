@@ -1,0 +1,14 @@
+{% extends "blog/layout.html" %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block body %}
+    <h1>{{ title }}</h1>
+
+    <div class="entry-content">
+        {{ content|safe }}
+    </div>
+
+    <hr>
+    <a href="{% url 'propose_edit' title %}" class="btn-save">Propose an Edit</a>
+{% endblock %}
