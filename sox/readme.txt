@@ -1,76 +1,116 @@
-That tree structure looks great. You’ve successfully moved from a flat structure to a robust, containerized Django application. Seeing 0004_businessprocess... in your migrations folder is a huge win—it means your relational database is officially live.
-
-Here is your updated README.md. I’ve refined the structure to match your actual file paths, corrected the tech stack versions, and updated the To-Do list to reflect that you’ve already conquered the "Controls App" setup and are now moving into the refinement phase.
-
 📘 Sox - Wiki & Systems Hub
 A centralized Django-based dashboard designed for internal audit and operational tracking. It features a wiki-style blog with markdown support and a dynamic SOX Control dashboard powered by HTMX and SVG workflows.
 
-🏗 Project Structure
-The project is modularized for scalability:
 
-Plaintext
-sox/
-├── blog/                # Wiki Logic (Markdown entries, Proposal system)
-├── sox_controls/        # SOX & Operational Logic (SVG Workflows, HTMX Tables)
-├── main/                # Core App (Home page, Global logic)
-├── mysite/              # Project Configuration (Settings, Root URLs)
-├── static/              # Global Assets (Custom CSS, JS Components)
-├── templates/           # Global Frontend
-│   ├── sox_controls/    # SVG partials and dynamic table fragments
-│   ├── blog/            # Wiki templates
-│   └── layout.html      # Master Baseplate (HTMX loaded)
-└── docker-compose.yml   # Multi-container orchestration (App + DB)
-🛠 Tech Stack
-Backend: Django 5.x (Python 3.12)
-
-Database: PostgreSQL 17 (Dockerized / Neon)
-
-Frontend: HTMX (for SPA-like feel), Tailwind/Custom CSS, SVG
-
-Environment: Docker + GitHub Codespaces
-
-Data Handling: Python csv module with transactional atomic imports
-
+├── Dockerfile
+├── backup.json
+├── blog
+│   ├── __init__.py
+│   ├── admin.py
+│   ├── apps.py
+│   ├── migrations
+│   │   ├── 0001_initial.py
+│   │   ├── 0002_entryproposal.py
+│   │   ├── 0003_entryproposal_send_rejection_email.py
+│   │   └── __init__.py
+│   ├── models.py
+│   ├── tests.py
+│   ├── urls.py
+│   └── views.py
+├── docker-compose.yml
+├── env_example
+├── main
+│   ├── __init__.py
+│   ├── admin.py
+│   ├── apps.py
+│   ├── migrations
+│   │   └── __init__.py
+│   ├── models.py
+│   ├── templates
+│   │   └── main
+│   ├── tests.py
+│   ├── urls.py
+│   └── views.py
+├── manage.py
+├── mysite
+│   ├── __init__.py
+│   ├── asgi.py
+│   ├── settings.py
+│   ├── urls.py
+│   └── wsgi.py
+├── readme.txt
+├── requirements.txt
+├── sox_controls
+│   ├── __init__.py
+│   ├── admin.py
+│   ├── apps.py
+│   ├── migrations
+│   │   ├── 0001_initial.py
+│   │   ├── 0002_soxcontrol.py
+│   │   ├── 0003_soxcontrol_sub_process.py
+│   │   ├── 0004_businessprocess_remove_soxcontrol_process_name_and_more.py
+│   │   └── __init__.py
+│   ├── models.py
+│   ├── tests.py
+│   ├── urls.py
+│   └── views.py
+├── static
+│   ├── css
+│   │   └── styles.css
+│   └── js
+│       └── components
+└── templates
+    ├── admin
+    │   └── csv_upload.html
+    ├── blog
+    │   ├── _entry_list.html
+    │   ├── edit_entry.html
+    │   ├── entry.html
+    │   ├── error.html
+    │   ├── index.html
+    │   ├── new_entry.html
+    │   ├── proposal_submitted.html
+    │   ├── propose_edit.html
+    │   └── search_results.html
+    ├── home.html
+    ├── layout.html
+    └── sox_controls
+        ├── base_sox.html
+        ├── index.html
+        ├── partials
+        │   ├── control_table_rows.html
+        │   └── workflows
+        │       ├── otc_workflow.html
+        │       └── p2p_workflow.html
+        └── sox_controls_detail.html
 🚦 To-Do List (Roadmap)
-Phase 1: SOX Controls & SVG Integration (Current)
-[x] Relational Modeling: Link SoxControl to BusinessProcess via ForeignKeys.
+Phase 1: Operational Core (COMPLETED)
 
-[x] SVG Mapping: Create interactive SVG workflows for P2P and OTC.
+[x] Relational Modeling: SoxControl connected to BusinessProcess via ForeignKeys.
 
-[ ] Sync Logic: Ensure SVG hx-get slugs match database SubProcess names exactly.
+[x] SVG Mapping: Clickable P2P/OTC workflows that trigger live table filtering.
 
-[ ] Bulk Upload: Update CSV logic to handle the new BusinessProcess foreign key relationship.
+[x] Bulk Upload: CSV utility for mass-importing audit controls.
 
-Phase 2: User Experience & Interactivity
-[ ] HTMX Spinners: Add loading indicators (htmx-indicator) for table refreshes.
+Phase 2: User Experience & Polish (Current)
 
-[ ] Global Search: Enhance search to query both Wiki entries and SOX control IDs.
+[ ] Sync Validation: Create a "Sync Check" view to ensure SVG slugs exist in the database.
 
-[ ] Audit Log: Create a model to track who uploaded which CSV and when.
+[ ] UX Indicators: Add HTMX "Loading" indicators for slower database queries.
 
-Phase 3: Access Control & Security
-[ ] The "Paywall" Logic: Implement the preview mode to mask control descriptions for unauthorized users.
+[ ] The "Gated" View: Finalize the logic that masks control details for unauthenticated users.
 
-[ ] Deployment: Configure production.py for deployment to Fly.io or Render.
+Phase 3: Automation & Scalability (The "Elite" Phase)
 
-💾 Database & Backups
-This project uses PostgreSQL. Data persists via Docker volumes or Neon cloud.
+[ ] Dynamic SVG Generation: Move from static .html SVG files to a template-driven loop.
 
-To Backup Data (Wiki & Controls):
+Logic: Loop through SubProcess models to draw nodes and arrows dynamically based on a sequence_order field.
 
-Bash
-docker exec sox-app-1 python manage.py dumpdata --indent 2 > backup.json
-To Restore Data:
+[ ] Visual Consistency Engine: Implement a slugification system to ensure database subprocess names always match SVG interaction IDs.
 
-Bash
-docker exec -i sox-app-1 python manage.py loaddata - < backup.json
-🚀 Quick Start
-Environment: Ensure .env contains DATABASE_URL and SECRET_KEY.
+[ ] Automated Backups: Schedule weekly dumpdata to backup.json to track the Neon DB state in Git.
 
-Launch: docker compose up --build -d
+Why this "To-Do" matters
+By adding Dynamic SVG Generation to your roadmap, you are acknowledging the "Challenge of Consistency" we discussed. Instead of spending hours fixing typos between your SVG and your Database, you are planning to make the Database the "Single Source of Truth."
 
-Migrate: docker exec -it sox-app-1 python manage.py migrate
-
-Ports: Ensure port 8081 is set to Public in the Codespaces Ports tab.
-
-Would you like me to help you create a specific "Validation View" that flags any SVG blocks that don't have a matching subprocess in your database?
+Would you like me to show you how to add a step_number field to your SoxControl model so you can begin sorting them for this future dynamic loop?
