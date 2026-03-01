@@ -15,8 +15,12 @@ sox/
 ├── blog/               # Main app
 │   ├── models.py       # Entry and EntryProposal models
 │   ├── views.py        # All views
-│   ├── admin.py        # Admin config with approve/reject logic
+│   ├── admin.py        # Admin config with approve/reject logi
+│   ├── models.py       # Classes for blog Entry and blog entry proposals
 │   ├── urls.py         # URL routes
+│   └── static/
+│   │   └── blog/
+│   │       ├── styles.css
 │   └── templates/
 │       └── blog/
 │           ├── layout.html
