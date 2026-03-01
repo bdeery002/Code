@@ -22,5 +22,6 @@ from django.urls import include, path
 urlpatterns = [
     path("admin/", admin.site.urls),
     path('', include("main.urls")),      # Home page
-    path('blog/', include("blog.urls")), # Blog entries now live at /blog/...
+    path('blog/', include("blog.urls", namespace="blog")), # Blog entries now live at /blog/...
+    path('sox_controls/', include('sox_controls.urls', namespace='sox_controls')),
 ]

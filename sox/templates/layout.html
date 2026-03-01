@@ -14,14 +14,14 @@
             <nav class="sidebar">
                 <h2>Blog</h2>
                 
-                <form action="{% url 'search' %}" method="get">
+                <form action="{% url 'blog:search' %}" method="get">
                     <input class="search" type="text" name="q" placeholder="Search Blogs">
                 </form>
 
                 <div class="nav-links">
-                    <a href="{% url 'index' %}">Home</a>
-                    <a href="{% url 'propose_edit' %}">Propose New Entry</a>
-                    <a href="{% url 'random_page' %}">Random Page</a>
+                    <a href="{% url 'blog:index' %}">Home</a>
+                    <a href="{% url 'blog:propose_edit' %}">Propose New Entry</a>
+                    <a href="{% url 'blog:random_page' %}">Random Page</a>
                     
                     {% block nav %}
                     {% endblock %}

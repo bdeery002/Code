@@ -24,7 +24,7 @@ def search(request):
     # Direct match — redirect straight to the entry
     exact = Entry.objects.filter(title__iexact=query).first()
     if exact:
-        return redirect("entry", title=exact.title)
+        return redirect("blog:entry", title=exact.title)
 
     # Substring match
     results = Entry.objects.filter(title__icontains=query)
@@ -38,8 +38,8 @@ def random_page(request):
     entries = Entry.objects.all()
     if entries.exists():
         selected = random.choice(list(entries))
-        return redirect("entry", title=selected.title)
-    return redirect("index")
+        return redirect("blog:entry", title=selected.title)
+    return redirect("blog:index")
 
 
 def propose_edit(request, title=None):

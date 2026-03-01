@@ -63,3 +63,6 @@ Recreate .env: Ensure SECRET_KEY and DATABASE_URL (from Neon) are set.
 Launch: docker compose up --build
 
 Ports: Ensure port 8081 is set to Public in the Codespaces Ports tab.
+
+Run this before closing your session:
+`docker compose exec app python manage.py dumpdata blog > backup.json`

@@ -164,4 +164,43 @@ label {
 
 .btn-cancel:hover {
     background-color: #545b62;
+}/* ==========================================================================
+   6. TABLES & GRID ALIGNMENT (Force Tabular Grid)
+   ========================================================================== */
+table.table {
+    width: 100% !important;
+    border-collapse: collapse !important;
+    margin-top: 20px !important;
+    table-layout: fixed !important;
+    background-color: #fff !important;
+    border: 1px solid #000 !important;
+}
+
+table.table th, 
+table.table td {
+    padding: 12px 15px !important;
+    /* Changed from right to left justify */
+    text-align: left !important; 
+    border: 1px solid #000 !important;
+    vertical-align: top !important;
+    word-wrap: break-word !important;
+}
+
+table.table th {
+    background-color: #f8f9fa !important;
+    font-weight: 600 !important;
+    text-transform: uppercase !important;
+    font-size: 0.85rem !important;
+    /* Ensure headers match the left justification */
+    text-align: left !important; 
+}
+
+/* Specific Column Widths */
+.col-proc { width: 15% !important; }
+.col-sub  { width: 15% !important; }
+.col-desc { width: 60% !important; } 
+.col-risk { width: 10% !important; }
+
+tr:hover {
+    background-color: #f1f3f5 !important;
 }

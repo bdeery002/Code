@@ -6,6 +6,7 @@
 
 {% block body %}
     <h1>{% if entry %}Propose an Edit: {{ entry.title }}{% else %}Propose a New Entry{% endif %}</h1>
+    
     <p class="proposal-intro">
         {% if entry %}
             Suggest changes to this entry. Your proposal will be reviewed before going live.
@@ -29,20 +30,29 @@
 
         <div class="form-group form-group--title">
             <label>Title</label>
-            <input type="text" name="title" value="{{ title }}" {% if entry %}readonly{% endif %}>
+            <input type="text" 
+                   name="title" 
+                   value="{{ title|default:'' }}" 
+                   placeholder="Entry title"
+                   required>
+            {% if entry %}
+            <small class="form-text text-muted">
+                You can propose a different title if desired.
+            </small>
+            {% endif %}
         </div>
 
         <div class="form-group form-group--content">
             <label>Markdown Content</label>
-            <textarea name="content">{{ content }}</textarea>
+            <textarea name="content" rows="15">{{ content|default:'' }}</textarea>
         </div>
 
         <div class="form-actions">
             <input type="submit" value="Submit Proposal" class="btn-save">
             {% if entry %}
-                <a href="{% url 'entry' entry.title %}" class="btn-cancel">Cancel</a>
+                <a href="{% url 'blog:entry' entry.title %}" class="btn-cancel">Cancel</a>
             {% else %}
-                <a href="{% url 'index' %}" class="btn-cancel">Cancel</a>
+                <a href="{% url 'blog:index' %}" class="btn-cancel">Cancel</a>
             {% endif %}
         </div>
     </form>

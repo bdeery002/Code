@@ -1,0 +1,85 @@
+{% extends "sox_controls/base_sox.html" %}
+
+{% block content %}
+    <h1>SOX Management Dashboard</h1>
+
+   <section>
+        <h2>Control List</h2>
+        <table class="table"> <thead>
+        <tr>
+            <th class="col-proc">Process</th> <th class="col-sub">Sub-Process</th>
+            <th class="col-desc">Description</th>
+            <th class="col-risk">Risk</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for control in controls %}
+        <tr>
+            <td>{{ control.process_name }}</td>
+            <td>{{ control.sub_process }}</td>
+            <td>{{ control.control_description }}</td>
+            <td>{{ control.risk }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+    </section>
+
+    
+
+    <section>
+        <h2>Flight List</h2>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Route</th>
+                    <th>Duration</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for flight in flights %}
+                    <tr>
+                        <td>{{ flight.id }}</td>
+                        <td>
+                            <a href="{% url 'sox_controls:flight_detail' flight.id %}">
+                                {{ flight.origin }} ✈️ {{ flight.destination }}
+                            </a>
+                        </td>
+                        <td>{{ flight.duration }} mins</td>
+                    </tr>
+                {% empty %}
+                    <tr>
+                        <td colspan="3">No flights available.</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </section>
+
+    <hr>
+
+    <section>
+        <h2>Airport List</h2>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Code</th>
+                    <th>City</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for airport in airports %}
+                    <tr>
+                        <td><code>{{ airport.code }}</code></td>
+                        <td>{{ airport.city }}</td>
+                    </tr>
+                {% empty %}
+                    <tr>
+                        <td colspan="2">No airports available.</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </section>
+{% endblock %}
