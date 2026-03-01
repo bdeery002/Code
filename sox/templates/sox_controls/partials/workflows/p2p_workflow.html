@@ -1,0 +1,35 @@
+<svg width="100%" height="150" viewBox="0 0 800 150">
+    <defs>
+        <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
+            <polygon points="0 0, 10 3.5, 0 7" fill="#000" />
+        </marker>
+    </defs>
+
+    <g class="process-node" 
+       hx-get="{% url 'sox_controls:filter_by_process' 'purchasing' %}" 
+       hx-target="#control-results" 
+       style="cursor: pointer;">
+        <rect x="50" y="40" width="160" height="70" rx="8" fill="#f8f9fa" stroke="#000" stroke-width="2"/>
+        <text x="130" y="80" text-anchor="middle" font-family="Arial" font-weight="bold">Purchasing</text>
+    </g>
+
+    <line x1="210" y1="75" x2="270" y2="75" stroke="#000" stroke-width="2" marker-end="url(#arrowhead)" />
+
+    <g class="process-node" 
+       hx-get="{% url 'sox_controls:filter_by_process' 'receiving' %}" 
+       hx-target="#control-results" 
+       style="cursor: pointer;">
+        <rect x="280" y="40" width="160" height="70" rx="8" fill="#f8f9fa" stroke="#000" stroke-width="2"/>
+        <text x="360" y="80" text-anchor="middle" font-family="Arial" font-weight="bold">Goods Receipt</text>
+    </g>
+
+    <line x1="440" y1="75" x2="500" y2="75" stroke="#000" stroke-width="2" marker-end="url(#arrowhead)" />
+
+    <g class="process-node" 
+       hx-get="{% url 'sox_controls:filter_by_process' 'accounts_payable' %}" 
+       hx-target="#control-results" 
+       style="cursor: pointer;">
+        <rect x="510" y="40" width="160" height="70" rx="8" fill="#f8f9fa" stroke="#000" stroke-width="2"/>
+        <text x="590" y="80" text-anchor="middle" font-family="Arial" font-weight="bold">Invoicing & AP</text>
+    </g>
+</svg>

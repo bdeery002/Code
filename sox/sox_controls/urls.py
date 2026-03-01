@@ -6,7 +6,10 @@ app_name = 'sox_controls'
 
 urlpatterns = [
     path("", views.index, name="index"),
+    path("load_workflow/<str:workflow_name>/", views.load_workflow, name="load_workflow"),
+    path('filter-by-process/<str:process_slug>/', views.filter_by_process, name='filter_by_process'),
     path("<int:flight_id>/", views.flight_detail, name="flight_detail"),
     path("<int:flight_id>/book/", views.book_flight, name="book_flight"),
+   
     
 ]

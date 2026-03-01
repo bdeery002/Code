@@ -9,7 +9,7 @@ from django.http import HttpResponse
 from django.shortcuts import redirect, render
 from django.urls import path, reverse
 
-from .models import SoxControl, Airport, Flight, Passenger
+from .models import BusinessProcess, SoxControl, Airport, Flight, Passenger
 
 # ---------------------------
 # CSV Upload Form
@@ -140,11 +140,31 @@ class ModelCsvAdminMixin:
 # -----------------------------------------------------------
 # THIS PART BELOW IS WHAT MAKES THEM APPEAR IN THE ADMIN!
 # -----------------------------------------------------------
+@admin.register(BusinessProcess)
+class BusinessProcessAdmin(admin.ModelAdmin):
+    prepopulated_fields = {"slug": ("name",)} # Automatically fills slug based on name
+    list_display = ("name", "slug")
+
 @admin.register(SoxControl)
 class SoxControlAdmin(ModelCsvAdminMixin, admin.ModelAdmin):
-    list_display = ("control_id", "process_name", "control_description", "risk")
-    search_fields = ("control_id", "process_name")
-    actions = ("download_csv_template", "go_to_upload_csv", "export_selected_as_csv")
+    # Added 'process' to list_display so you can see the link in the Admin table
+    list_display = ("control_id", "process", "sub_process", "risk", "effective_date")
+    
+    # Updated search_fields to search through the related BusinessProcess name
+    search_fields = ("control_id", "process__name", "sub_process")
+    
+    actions = ["download_csv_template", "go_to_upload_csv", "export_selected_as_csv"]
+
+    # This tells the Mixin to look for BusinessProcess by its 'name' or 'slug'
+    def get_fk_lookup(self, field, raw_value):
+        if field.name == "process":
+            from .models import BusinessProcess
+            try:
+                # Try matching by name first, then slug
+                return BusinessProcess.objects.get(models.Q(name__iexact=raw_value) | models.Q(slug__iexact=raw_value))
+            except BusinessProcess.DoesNotExist:
+                raise ValueError(f"Business Process '{raw_value}' not found. Please create it in the Admin first.")
+        return super().get_fk_lookup(field, raw_value)
 
 @admin.register(Airport)
 class AirportAdmin(ModelCsvAdminMixin, admin.ModelAdmin):

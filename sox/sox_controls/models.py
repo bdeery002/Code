@@ -2,24 +2,43 @@ from django.db import models
 from django.core.exceptions import ValidationError
 
 # Create your models here.
+# 1. NEW MODEL: The Business Process (e.g., Procure to Pay)
+class BusinessProcess(models.Model):
+    name = models.CharField(max_length=100) # e.g., "Procure to Pay"
+    slug = models.SlugField(unique=True)     # e.g., "p2p"
+    description = models.TextField(blank=True)
 
-# sox_controls/models.py
+    class Meta:
+        verbose_name = "Business Process"
+        verbose_name_plural = "Business Processes"
+
+    def __str__(self):
+        return self.name
+
+# 2. UPDATED MODEL: Link SoxControl to BusinessProcess
 class SoxControl(models.Model):
-    # Fixed: Removed the User/owner field for now
     control_id = models.CharField(max_length=50, unique=True)
-    process_name = models.CharField(max_length=200)
+    
+    # NEW: Link to the BusinessProcess model
+    process = models.ForeignKey(
+        BusinessProcess, 
+        on_delete=models.CASCADE, 
+        related_name="controls",
+        null=True, # Allow null temporarily so migrations don't break existing data
+        blank=True
+    )
+    
+    # We keep sub_process as a text field for granular SVG filtering
     sub_process = models.CharField(max_length=200, blank=True, null=True)
-    risk = models.CharField(max_length=100)
+    
     control_description = models.TextField()
     
-    # Fixed: Replaced ellipsis with a proper list of tuples
     RISK_CHOICES = [
         ("High", "High"),
         ("Medium", "Medium"),
         ("Low", "Low"),
     ]
     risk = models.CharField(max_length=100, choices=RISK_CHOICES)
-    
     effective_date = models.DateField()
 
     class Meta:
@@ -27,7 +46,7 @@ class SoxControl(models.Model):
         verbose_name_plural = "SOX Controls"
 
     def __str__(self):
-        return f"{self.control_id} - {self.process_name}"
+        return f"{self.control_id} - {self.sub_process}"
 
 
 # Airport model
