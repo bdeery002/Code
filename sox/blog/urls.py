@@ -1,11 +1,18 @@
 from django.urls import path
 from . import views
 
+# blog/urls.py
 urlpatterns = [
     path("", views.index, name="index"),
-    path("blog/<str:title>", views.entry, name="entry"),
-    path("search", views.search, name="search"),
-    path("random", views.random_page, name="random_page"),
-    path("propose", views.propose_edit, name="propose_new"),
-    path("propose/<str:title>", views.propose_edit, name="propose_edit"),
+    path("search/", views.search, name="search"),
+    path("random/", views.random_page, name="random_page"),
+    
+    # Matches <a href="{% url 'propose_edit' %}"> in your layout/sidebar
+    path("propose/", views.propose_edit, name="propose_edit"),
+    
+    # Matches <a href="{% url 'propose_edit_with_title' title=title %}"> in entry.html
+    path("propose/<str:title>/", views.propose_edit, name="propose_edit_with_title"),
+    
+    # Matches return redirect("entry", title=...) in views.py
+    path("<str:title>/", views.entry, name="entry"),
 ]

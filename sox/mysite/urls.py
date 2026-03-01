@@ -21,5 +21,6 @@ from django.urls import include, path
 
 urlpatterns = [
     path("admin/", admin.site.urls),
-    path('', include("blog.urls"))
+    path('', include("main.urls")),      # Home page
+    path('blog/', include("blog.urls")), # Blog entries now live at /blog/...
 ]
