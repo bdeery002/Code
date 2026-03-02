@@ -2,7 +2,7 @@
 A centralized Django-based dashboard designed for internal audit and operational tracking. It features a wiki-style blog with markdown support and a dynamic SOX Control dashboard powered by HTMX and SVG workflows.
 
 
-├── Dockerfile
+── Dockerfile
 ├── backup.json
 ├── blog
 │   ├── __init__.py
@@ -49,6 +49,8 @@ A centralized Django-based dashboard designed for internal audit and operational
 │   │   ├── 0002_soxcontrol.py
 │   │   ├── 0003_soxcontrol_sub_process.py
 │   │   ├── 0004_businessprocess_remove_soxcontrol_process_name_and_more.py
+│   │   ├── 0005_auto_20260301_2118.py
+│   │   ├── 0006_remove_flight_destination_remove_flight_origin_and_more.py
 │   │   └── __init__.py
 │   ├── models.py
 │   ├── tests.py
@@ -77,12 +79,12 @@ A centralized Django-based dashboard designed for internal audit and operational
     └── sox_controls
         ├── base_sox.html
         ├── index.html
-        ├── partials
-        │   ├── control_table_rows.html
-        │   └── workflows
-        │       ├── otc_workflow.html
-        │       └── p2p_workflow.html
-        └── sox_controls_detail.html
+        └── partials
+            ├── control_table_rows.html
+            └── workflows
+                ├── otc_workflow.html
+                └── p2p_workflow.html
+                
 🚦 To-Do List (Roadmap)
 Phase 1: Operational Core (COMPLETED)
 
@@ -114,3 +116,5 @@ Why this "To-Do" matters
 By adding Dynamic SVG Generation to your roadmap, you are acknowledging the "Challenge of Consistency" we discussed. Instead of spending hours fixing typos between your SVG and your Database, you are planning to make the Database the "Single Source of Truth."
 
 Would you like me to show you how to add a step_number field to your SoxControl model so you can begin sorting them for this future dynamic loop?
+
+$ tree -I 'venv|__pycache__|node_modules'

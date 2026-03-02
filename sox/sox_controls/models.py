@@ -1,11 +1,29 @@
 from django.db import models
+from django.utils.text import slugify
 from django.core.exceptions import ValidationError
 
-# Create your models here.
-# 1. NEW MODEL: The Business Process (e.g., Procure to Pay)
+
+def clean(self):
+    if SubProcess.objects.filter(
+        business_process=self.business_process,
+        sequence_order=self.sequence_order
+    ).exclude(pk=self.pk).exists():
+        raise ValidationError(
+            f"A subprocess with sequence order {self.sequence_order} already exists "
+            f"in '{self.business_process}'. Use a different number (e.g. 15 to insert between 10 and 20)."
+        )
+
+
+
 class BusinessProcess(models.Model):
-    name = models.CharField(max_length=100) # e.g., "Procure to Pay"
-    slug = models.SlugField(unique=True)     # e.g., "p2p"
+    name = models.CharField(max_length=100)
+    slug = models.SlugField(unique=True)
+    code = models.CharField(
+        max_length=10, 
+        unique=True,
+        help_text="Short code used as the prefix for Control IDs (e.g. 'P2P', 'OTC'). "
+                  "Cannot be changed once controls have been created."
+    )
     description = models.TextField(blank=True)
 
     class Meta:
@@ -15,24 +33,52 @@ class BusinessProcess(models.Model):
     def __str__(self):
         return self.name
 
-# 2. UPDATED MODEL: Link SoxControl to BusinessProcess
-class SoxControl(models.Model):
-    control_id = models.CharField(max_length=50, unique=True)
-    
-    # NEW: Link to the BusinessProcess model
-    process = models.ForeignKey(
-        BusinessProcess, 
-        on_delete=models.CASCADE, 
-        related_name="controls",
-        null=True, # Allow null temporarily so migrations don't break existing data
-        blank=True
+
+class SubProcess(models.Model):
+    business_process = models.ForeignKey(
+        BusinessProcess,
+        on_delete=models.CASCADE,
+        related_name="sub_processes",
     )
-    
-    # We keep sub_process as a text field for granular SVG filtering
-    sub_process = models.CharField(max_length=200, blank=True, null=True)
-    
+    name = models.CharField(max_length=200)       # e.g. "Goods Receipt"
+    slug = models.SlugField(max_length=200)       # e.g. "goods_receipt" — auto-set on save
+    sequence_order = models.PositiveIntegerField(
+        default=10,
+        help_text="Controls position in workflow. Use multiples of 10 (10, 20, 30) to leave room for future insertions."
+    )
+    is_primary_flow = models.BooleanField(
+        default=True,
+        help_text="Primary flow nodes appear in the connected linear workflow. "
+                  "Uncheck for standalone blocks like 'Vendor Rebates' or 'Intercompany'."
+    )
+
+    class Meta:
+        verbose_name = "Sub Process"
+        verbose_name_plural = "Sub Processes"
+        # Enforce unique ordering per process — no two subprocesses in the same
+        # process can share the same sequence_order. Gaps are fine and encouraged.
+        unique_together = [("business_process", "sequence_order")]
+        ordering = ["business_process", "sequence_order"]
+
+    def save(self, *args, **kwargs):
+        # Auto-derive slug from name so they always stay in sync
+        self.slug = slugify(self.name)
+        super().save(*args, **kwargs)
+
+    def __str__(self):
+        return f"{self.business_process.name} › {self.name}"
+
+class SoxControl(models.Model):
+    control_id = models.CharField(max_length=50, unique=True, blank=True)
+
+    sub_process = models.ForeignKey(
+        SubProcess,
+        on_delete=models.PROTECT,
+        related_name="controls",
+    )
+
     control_description = models.TextField()
-    
+
     RISK_CHOICES = [
         ("High", "High"),
         ("Medium", "Medium"),
@@ -41,66 +87,20 @@ class SoxControl(models.Model):
     risk = models.CharField(max_length=100, choices=RISK_CHOICES)
     effective_date = models.DateField()
 
+    def save(self, *args, **kwargs):
+        if not self.control_id:
+            # Get the process slug prefix e.g. "p2p" → "P2P"
+            prefix = self.sub_process.business_process.code.upper()
+            # Count existing controls for this process and increment
+            existing = SoxControl.objects.filter(
+                sub_process__business_process=self.sub_process.business_process
+            ).count()
+            self.control_id = f"{prefix}-{str(existing + 1).zfill(2)}"
+        super().save(*args, **kwargs)
+
     class Meta:
         verbose_name = "SOX Control"
         verbose_name_plural = "SOX Controls"
 
     def __str__(self):
-        return f"{self.control_id} - {self.sub_process}"
-
-
-# Airport model
-class Airport(models.Model):
-    code = models.CharField(max_length=3, unique=True)
-    city = models.CharField(max_length=100)
-    
-    class Meta:
-        ordering = ['code']
-        verbose_name = "Airport"
-        verbose_name_plural = "Airports"
-    
-    def __str__(self):
-        return f"{self.code} ({self.city})"
-
-# Flight model
-class Flight(models.Model):
-    origin = models.ForeignKey(Airport, on_delete=models.CASCADE, related_name="departures")
-    destination = models.ForeignKey(Airport, on_delete=models.CASCADE, related_name="arrivals")
-    duration = models.IntegerField(help_text="Duration in minutes")
-    
-    class Meta:
-        ordering = ['origin', 'destination']
-        verbose_name = "Flight"
-        verbose_name_plural = "Flights"
-    
-    def __str__(self):
-        return f"{self.origin} to {self.destination}"
-    
-    def clean(self):
-        """Validate the model fields"""
-        if self.duration <= 0:
-            raise ValidationError("Duration must be positive")
-        if self.origin == self.destination:
-            raise ValidationError("Origin and destination cannot be the same")
-    
-    def save(self, *args, **kwargs):
-        """Override save to call clean()"""
-        self.full_clean()
-        super().save(*args, **kwargs)
-
-class Passenger(models.Model):
-    first_name = models.CharField(max_length=100)
-    last_name = models.CharField(max_length=100)
-    flights = models.ManyToManyField(
-        Flight,
-        blank=True,
-        related_name="passengers",
-    )
-
-    class Meta:
-        ordering = ['last_name', 'first_name']
-        verbose_name = "Passenger"
-        verbose_name_plural = "Passengers"
-
-    def __str__(self):
-        return f"{self.first_name} {self.last_name}"
+        return f"{self.control_id} – {self.sub_process.name}"

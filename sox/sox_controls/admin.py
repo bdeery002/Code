@@ -7,9 +7,9 @@ from django.contrib import admin, messages
 from django.db import transaction
 from django.http import HttpResponse
 from django.shortcuts import redirect, render
-from django.urls import path, reverse
+from django.urls import path
 
-from .models import BusinessProcess, SoxControl, Airport, Flight, Passenger
+from .models import BusinessProcess, SubProcess, SoxControl
 
 # ---------------------------
 # CSV Upload Form
@@ -23,7 +23,7 @@ class CsvUploadForm(forms.Form):
     )
 
 # ---------------------------
-# CSV Mixin
+# CSV Mixin — unchanged from your original
 # ---------------------------
 class ModelCsvAdminMixin:
     upload_template_name = "admin/csv_upload.html"
@@ -58,7 +58,7 @@ class ModelCsvAdminMixin:
                 return rel_model.objects.get(name=raw)
             return rel_model.objects.get(pk=raw)
         except rel_model.DoesNotExist:
-            raise ValueError(f"{rel_model.__name__} not found: {raw}")
+            raise ValueError(f"{rel_model.__name__} not found: '{raw}'")
 
     def build_instance_from_row(self, row):
         kwargs = {}
@@ -99,7 +99,6 @@ class ModelCsvAdminMixin:
                             count += 1
                         if dry_run:
                             transaction.set_rollback(True)
-                    
                     msg = f"Successfully {'validated' if dry_run else 'imported'} {count} rows."
                     self.message_user(request, msg, messages.SUCCESS)
                     return redirect(f"admin:{opts.app_label}_{opts.model_name}_changelist")
@@ -137,48 +136,78 @@ class ModelCsvAdminMixin:
         opts = self.model._meta
         return redirect(f"admin:{opts.app_label}_{opts.model_name}_upload_csv")
 
-# -----------------------------------------------------------
-# THIS PART BELOW IS WHAT MAKES THEM APPEAR IN THE ADMIN!
-# -----------------------------------------------------------
+
+# ---------------------------
+# Inline: SubProcess inside BusinessProcess
+# ---------------------------
+class SubProcessInline(admin.TabularInline):
+    model = SubProcess
+    extra = 1
+    fields = ("name", "slug", "sequence_order", "is_primary_flow")
+    readonly_fields = ("slug",)  # auto-derived from name on save
+    ordering = ("sequence_order",)
+
+
+# ---------------------------
+# BusinessProcess Admin
+# ---------------------------
 @admin.register(BusinessProcess)
 class BusinessProcessAdmin(admin.ModelAdmin):
-    prepopulated_fields = {"slug": ("name",)} # Automatically fills slug based on name
-    list_display = ("name", "slug")
+    prepopulated_fields = {"slug": ("name",)}
+    list_display = ("name", "slug", "code")
+    fields = ("name", "slug", "code", "description")
+    inlines = [SubProcessInline]
 
-@admin.register(SoxControl)
-class SoxControlAdmin(ModelCsvAdminMixin, admin.ModelAdmin):
-    # Added 'process' to list_display so you can see the link in the Admin table
-    list_display = ("control_id", "process", "sub_process", "risk", "effective_date")
-    
-    # Updated search_fields to search through the related BusinessProcess name
-    search_fields = ("control_id", "process__name", "sub_process")
-    
+
+# ---------------------------
+# SubProcess Admin
+# ---------------------------
+@admin.register(SubProcess)
+class SubProcessAdmin(ModelCsvAdminMixin, admin.ModelAdmin):
+    list_display = ("name", "business_process", "sequence_order", "is_primary_flow", "slug")
+    list_filter = ("business_process", "is_primary_flow")
+    list_editable = ("sequence_order", "is_primary_flow")  # reorder directly in list view
+    ordering = ("business_process", "sequence_order")
+    readonly_fields = ("slug",)
     actions = ["download_csv_template", "go_to_upload_csv", "export_selected_as_csv"]
 
-    # This tells the Mixin to look for BusinessProcess by its 'name' or 'slug'
     def get_fk_lookup(self, field, raw_value):
-        if field.name == "process":
-            from .models import BusinessProcess
+        # CSV column for business_process accepts name or slug
+        if field.name == "business_process":
             try:
-                # Try matching by name first, then slug
-                return BusinessProcess.objects.get(models.Q(name__iexact=raw_value) | models.Q(slug__iexact=raw_value))
+                return BusinessProcess.objects.get(
+                    models.Q(name__iexact=raw_value) | models.Q(slug__iexact=raw_value)
+                )
             except BusinessProcess.DoesNotExist:
-                raise ValueError(f"Business Process '{raw_value}' not found. Please create it in the Admin first.")
+                raise ValueError(
+                    f"BusinessProcess '{raw_value}' not found. Create it in Admin first."
+                )
         return super().get_fk_lookup(field, raw_value)
 
-@admin.register(Airport)
-class AirportAdmin(ModelCsvAdminMixin, admin.ModelAdmin):
-    list_display = ("code", "city")
-    search_fields = ("code", "city")
-    actions = ("download_csv_template", "go_to_upload_csv", "export_selected_as_csv")
 
-@admin.register(Flight)
-class FlightAdmin(ModelCsvAdminMixin, admin.ModelAdmin):
-    list_display = ("origin", "destination", "duration")
-    actions = ("download_csv_template", "go_to_upload_csv", "export_selected_as_csv")
+# ---------------------------
+# SoxControl Admin — your mixin fully preserved
+# ---------------------------
+@admin.register(SoxControl)
+class SoxControlAdmin(ModelCsvAdminMixin, admin.ModelAdmin):
+    list_display = ("control_id", "get_process", "sub_process", "risk", "effective_date")
+    search_fields = ("control_id", "sub_process__name", "sub_process__business_process__name")
+    list_filter = ("sub_process__business_process", "risk")
+    readonly_fields = ("control_id",)  # auto-generated, never editable
+    actions = ["download_csv_template", "go_to_upload_csv", "export_selected_as_csv"]
 
-@admin.register(Passenger)
-class PassengerAdmin(ModelCsvAdminMixin, admin.ModelAdmin):
-    list_display = ("first_name", "last_name")
-    filter_horizontal = ("flights",)
-    actions = ("download_csv_template", "go_to_upload_csv", "export_selected_as_csv")
+    @admin.display(description="Business Process", ordering="sub_process__business_process")
+    def get_process(self, obj):
+        return obj.sub_process.business_process.name
+
+    def get_fk_lookup(self, field, raw_value):
+        if field.name == "sub_process":
+            try:
+                return SubProcess.objects.get(
+                    models.Q(name__iexact=raw_value) | models.Q(slug__iexact=raw_value)
+                )
+            except SubProcess.DoesNotExist:
+                raise ValueError(
+                    f"SubProcess '{raw_value}' not found. Create it in Admin first."
+                )
+        return super().get_fk_lookup(field, raw_value)

@@ -4,25 +4,23 @@
 <h1>SOX Management Dashboard</h1>
 
 <div class="tabs" style="display: flex; gap: 5px; margin-bottom: 0;">
-    <button class="tab-btn active" 
-            hx-get="{% url 'sox_controls:load_workflow' 'p2p' %}" 
+    {% for process in processes %}
+    <button class="tab-btn {% if forloop.first %}active{% endif %}"
+            hx-get="{% url 'sox_controls:load_workflow' process.slug %}"
             hx-target="#workflow-container"
-            hx-on:click="updateActiveTab(this)">
-        Procure to Pay (P2P)
+            hx-on:click="updateActiveTab(this); filterByProcess('{{ process.slug }}')">
+        {{ process.name }}
     </button>
-    <button class="tab-btn" 
-            hx-get="{% url 'sox_controls:load_workflow' 'otc' %}" 
-            hx-target="#workflow-container"
-            hx-on:click="updateActiveTab(this)">
-        Order to Cash (OTC)
-    </button>
+    {% endfor %}
 </div>
 
 <section id="workflow-container" 
-         hx-get="{% url 'sox_controls:load_workflow' 'p2p' %}" 
+         {% if processes %}
+         hx-get="{% url 'sox_controls:load_workflow' processes.0.slug %}" 
+         {% endif %}
          hx-trigger="load" 
          style="background: #fff; padding: 20px; border: 1px solid #000; margin-bottom: 30px; border-top: none; min-height: 180px;">
-    </section>
+</section>
 
 <section>
     <div style="display: flex; justify-content: space-between; align-items: center;">
@@ -64,9 +62,16 @@
 </section>
 
 <script>
-    function updateActiveTab(element) {
-        document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
-        element.classList.add('active');
+    function updateActiveTab(el) {
+        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+        el.classList.add('active');
+    }
+
+    function filterByProcess(slug) {
+        htmx.ajax('GET', '/sox_controls/filter/process/' + slug + '/', {
+            target: '#control-results',
+            swap: 'innerHTML'
+        });
     }
 </script>
 
