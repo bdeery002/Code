@@ -193,8 +193,13 @@ class SoxControlAdmin(ModelCsvAdminMixin, admin.ModelAdmin):
     list_display = ("control_id", "get_process", "sub_process", "risk", "effective_date")
     search_fields = ("control_id", "sub_process__name", "sub_process__business_process__name")
     list_filter = ("sub_process__business_process", "risk")
-    readonly_fields = ("control_id",)  # auto-generated, never editable
+    readonly_fields = ("control_id",)
     actions = ["download_csv_template", "go_to_upload_csv", "export_selected_as_csv"]
+
+    def csv_fields(self):
+        # Exclude control_id — it's auto-generated on save
+        return [f for f in self.model._meta.fields 
+                if not f.primary_key and f.name != "control_id"]
 
     @admin.display(description="Business Process", ordering="sub_process__business_process")
     def get_process(self, obj):
