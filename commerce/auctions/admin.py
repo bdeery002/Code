@@ -3,7 +3,7 @@ from .models import User, Listing, Bid, Comment
 
 # This helps you see more information in the list view
 class ListingAdmin(admin.ModelAdmin):
-    list_display = ("title", "owner", "starting_bid", "is_active", "category")
+    list_display = ("title", "owner", "starting_bid", "is_active")
 
 class BidAdmin(admin.ModelAdmin):
     list_display = ("user", "listing", "amount")

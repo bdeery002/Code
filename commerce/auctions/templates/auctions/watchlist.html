@@ -1,10 +1,11 @@
 {% extends "auctions/layout.html" %}
 
+{% block title %}Watchlist{% endblock %}
+
 {% block body %}
-    <h2>Active Listings</h2>
+    <h2>Your Watchlist</h2>
     <div class="listings-grid">
-        <!-- Loop through each listing and display its details -->
-        {% for listing in listings %}
+        {% for listing in watchlist %}
             <div class="listing-card">
                 {% if listing.image_url %}
                     <div class="card-image">
@@ -13,13 +14,13 @@
                 {% endif %}
                 <div class="card-content">
                     <h5>{{ listing.title }}</h5>
-                    <p>{{ listing.description}}</p>
+                    <p>{{ listing.description }}</p>
                     <p class="price">Price: ${{ listing.starting_bid }}</p>
                     <a href="{% url 'auctions:listing_page' listing.id %}" class="btn-detail">View Details</a>
                 </div>
             </div>
         {% empty %}
-            <p>No active auctions right now.</p>
+            <p>You have no items in your watchlist.</p>
         {% endfor %}
     </div>
-{% endblock %}
+{% endblock %}  

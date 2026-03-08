@@ -1,25 +1,58 @@
-body {
-    padding: 10px;
+/* ==========================================================================
+   1. GLOBAL RESETS & BASE STYLES
+   ========================================================================== */
+* { box-sizing: border-box; }
+body { font-family: sans-serif; padding: 20px; background-color: #f8f9fa; }
+
+/* ==========================================================================
+   2. LAYOUT SHELL (CSS Grid)
+   ========================================================================== */
+.listings-grid {
+    display: grid;
+    /* This creates a responsive grid without media queries! */
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 20px;
 }
 
-form input {
-    display: block;
+/* ==========================================================================
+   5. LISTING CARDS
+   ========================================================================== */
+.listing-card {
+    background: white;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.2s;
+}
+
+.listing-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+
+.card-image img {
     width: 100%;
-    padding: .375rem .75rem;
-    font-size: 1rem;
-    line-height: 1.5;
-    color: #495057;
-    background-color: #fff;
-    border: 1px solid #ced4da;
-    border-radius: .25rem;
-    margin-bottom: 10px;
+    height: 150px;
+    object-fit: cover; /* Keeps images from stretching */
 }
 
-form button {
-    color: #fff;
-    background-color: #007bff;
-    border-color: #007bff;
-    padding: .375rem .75rem;
-    border-radius: .25rem;
-    cursor: pointer;
+.card-content {
+    padding: 15px;
+}
+
+.price {
+    font-weight: bold;
+    color: #28a745;
+}
+
+.btn-detail {
+    display: inline-block;
+    padding: 10px;
+    background: #007bff;
+    color: white;
+    text-decoration: none;
+    text-align: center;
+    border-radius: 4px;
 }

@@ -17,11 +17,15 @@
                 <h2>{{ listing.title }}</h2>
                 
                 {% if user.is_authenticated %}
-                    <form action="#" method="post" class="mb-3">
-                        {% csrf_token %}
+                    <form action="{% url 'auctions:toggle_watchlist' listing.id %}" method="post" class="mb-3">
+                    {% csrf_token %}
                         <button type="submit" class="btn btn-outline-secondary btn-sm">
-                            Add to Watchlist
-                        </button>
+                        {% if listing in request.user.watchlist.all %}
+                         Remove from Watchlist
+                        {% else %}
+                        Add to Watchlist
+                        {% endif %}
+                    </button>
                     </form>
                 {% endif %}
 
@@ -50,7 +54,6 @@
                     <h6>Details:</h6>
                     <ul>
                         <li>Listed by: <strong>{{ listing.owner.username }}</strong></li>
-                        <li>Category: {{ listing.category|default:"No Category" }}</li>
                     </ul>
                 </div>
             </div>
