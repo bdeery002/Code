@@ -1,0 +1,41 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Color Changer</title>
+    <script>
+        // Wait for the HTML to load before running the script
+        document.addEventListener("DOMContentLoaded", () => {
+            
+            const heading = document.querySelector('#hello');
+            const selector = document.querySelector('select');
+
+            selector.onchange = function () {
+                // Change the background of the entire page
+                document.body.style.backgroundColor = this.value;
+                
+                // Adjust text color for better contrast
+                if (this.value === "black") {
+                    heading.style.color = "white";
+                } else {
+                    heading.style.color = "black";
+                }
+            };
+        });
+    </script>
+</head>
+<body>
+
+    <h1 id="hello">Change the background color!</h1>
+
+    <select>
+        <option value="white">Default</option>
+        <option value="black">Black</option>
+        <option value="red">Red</option>
+        <option value="green">Green</option>
+    </select>
+
+</body>
+</html>

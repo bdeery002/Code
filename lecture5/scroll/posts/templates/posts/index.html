@@ -40,6 +40,19 @@
                 counter = end + 1;
 
                 // Get new posts and add posts
+                //fetch('/posts?start=0&end=10')
+                //              ↓
+                // urls.py — matches the /posts path
+                //              ↓
+                // views.py — the view function runs
+                //        ↓
+                // returns JSON back to fetch
+                //        ↓
+                // .then(response => response.json())  — parses it
+                                ↓
+                //.then(data => { data.posts.forEach(add_post) })  — uses it
+
+
                 fetch(`/posts?start=${start}&end=${end}`)
                 .then(response => response.json())
                 .then(data => {

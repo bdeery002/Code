@@ -3,30 +3,49 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Functional Counter</title>
 
-    <script>
-        let count = 0;
-        function increment() {
-            count++;
-            document.getElementById("counter").innerText = count;
-        }
-        function decrement() {
-            count--;
-            document.getElementById("counter").innerText = count;
-        }
 
-        let Motherfucker = 42;
-        function showMotherfucker() {
-            alert(Motherfucker);
-        }   
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    // 1. Initialize display from localStorage or start at 0
+    let currentCount = parseInt(localStorage.getItem('counter')) || 0;
+    const counterDisplay = document.querySelector('#counter');
+    counterDisplay.innerText = currentCount;
+
+    // 2. Define the update function
+    const updateCounter = (step) => {
+        if (step === 0) {
+            currentCount = 0;
+        } else {
+            currentCount += step;
+        }
+        
+        // Update both the screen and the browser storage
+        counterDisplay.innerText = currentCount;
+        localStorage.setItem('counter', currentCount);
+    };
+
+    // 3. Auto-increment every 1000ms
+    setInterval(() => {
+        updateCounter(1);
+    }, 1000);
+
+    // 4. Manual controls
+    document.querySelector('#plus').onclick = () => updateCounter(1);
+    document.querySelector('#minus').onclick = () => updateCounter(-1);
+    document.querySelector('#reset').onclick = () => updateCounter(0);
+}); 
+
     </script>
 
 </head>
 <body>
+
     <h1 id="counter">0</h1>
-    <button onclick="increment()">+</button>
-    <button onclick="decrement()">-</button>
-    <button onclick="showMotherfucker()">Show Motherfucker</button>
+    <button id="plus">+</button>
+    <button id="minus">-</button>
+    <button id="reset">Reset</button>
+
 </body>
 </html>

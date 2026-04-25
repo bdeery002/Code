@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bitcoin Price Tracker</title>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+
+            document.querySelector('form').onsubmit = function(){
+                const currency = document.getElementById('currency').value.toUpperCase();
+                if (!currency) {
+                    alert("Please enter a currency code.");
+                    return false; // Prevent form submission
+                }
+
+                // Using Blockchain.com which supports CORS for browsers
+                fetch(`https://blockchain.info/ticker?cors=true`)
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data[currency]) {
+                            const rate = data[currency].last;
+                            const symbol = data[currency].symbol;
+                            document.body.innerHTML = `<h1>Current Bitcoin Price: ${symbol}${rate.toLocaleString()}</h1>`;
+                        } else {
+                            alert("Currency not found. Please enter a valid currency code.");
+                        }
+                    })
+                    .catch(error => {
+                        console.error("Error fetching data:", error);
+                        document.body.innerHTML = "<h1>Failed to fetch Bitcoin price.</h1>";
+                    });
+
+                return false; // Prevent form submission
+            }
+
+
+            // Using Blockchain.com which supports CORS for browsers
+            fetch("https://blockchain.info/ticker?cors=true")
+                .then(response => response.json())
+                .then(data => {
+                    // Extracting the USD "last" price
+                    console.log(data); // Log the entire response to understand its structure
+                    const rate = data.USD.last;
+                    const symbol = data.USD.symbol;
+                    document.body.innerHTML = `<h1>Current Bitcoin Price: ${symbol}${rate.toLocaleString()}</h1>`;
+                })
+                .catch(error => {
+                    console.error("Error fetching data:", error);
+                    document.body.innerHTML = "<h1>Failed to fetch Bitcoin price.</h1>";
+                });
+        });
+    </script>
+</head>
+<body>
+    <h1>Loading price...</h1>
+    <form>
+        <input id ="currency" placeholder = "Enter currency code (e.g., USD, EUR)" />
+        <button type="button" onclick="fetchPrice()">Get Price</button> 
+    </form>
+
+</body>
+</html>

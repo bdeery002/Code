@@ -10,7 +10,7 @@
             font-family: Arial, sans-serif;
         }
         /* Hide all divs by default */
-        div {
+        .page {
             display: none;        
         }
     </style>
@@ -26,7 +26,7 @@
         function showPage(page) {
             // 1. Hide every div
             //// This whole block runs first and must finish
-            document.querySelectorAll('div').forEach(div => {
+            document.querySelectorAll('.page').forEach(div => {
                 div.style.display = 'none';
             });
 
@@ -54,16 +54,21 @@
     <button data-page="page2">Show Page 2</button>
     <button data-page="page3">Show Page 3</button>
 
-    <div id="page1">
+    <div id="page1" class ="page">
         <h1>This is page 1.</h1>
     </div>
 
-    <div id="page2">
+    <div id="page2" class ="page">
         <h1>This is page 2.</h1>
     </div>
 
-    <div id="page3">
+    <div id="page3" class ="page">
         <h1>This is page 3.</h1>
+    </div>
+
+    <div>
+        <h1>Welcome to CS50!</h1>
+        <p>This is a single page application.</p>
     </div>
 </body>
 </html>

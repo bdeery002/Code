@@ -6,10 +6,17 @@
         </style>
         <script>
 
-            window.onpopstate = function(event) {
-                console.log(event.state.section);
-                showSection(event.state.section);
-            }
+         //This code tells the browser: "When the user clicks 'Back,' don't reload the whole page—just look at the 
+         // saved history data and show the correct section of the page immediately   
+         window.onpopstate = function(event) {
+                // Only try to show the section if the state actually exists
+                if (event.state && event.state.section) {
+                    console.log(event.state.section);
+                    showSection(event.state.section);
+                }
+            };
+
+            // This function takes the section number from button.onclick and makes a fetch request to the server to get the content for that section.
 
             function showSection(section) {
                 
@@ -22,12 +29,17 @@
 
             }
 
+            //this code sets up click handlers for the buttons. 
+            //When a button is clicked, it sets i to the value of <button data-section-number="1">, which is the section number.
+                // Then, it uses history.pushState to save the current state (the section number) and update the URL to something like /section1. 
+                // Finally, it calls showSection(section) to fetch and display the content for that section. 
+                // This way, when you click a button,it updates the URL and shows the corresponding section without reloading the page.
             document.addEventListener('DOMContentLoaded', function() {
                 document.querySelectorAll('button').forEach(button => {
                     button.onclick = function() {
-                        const section = this.dataset.section;
-                        history.pushState({section: section}, "", `section${section}`);
-                        showSection(section);
+                        const i = this.dataset.section;
+                        history.pushState({section: i}, "", `section${i}`);
+                        showSection(i);
                     };
                 });
             });
