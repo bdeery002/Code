@@ -123,12 +123,31 @@ function view_email(id) {
       .then(() => load_mailbox('inbox'));
     });
 
-    document.querySelector('#email-view').append(archiveBtn);
+   document.querySelector('#email-view').append(archiveBtn);
+
+    // Reply button
+    const replyBtn = document.createElement('button');
+    replyBtn.textContent = 'Reply';
+    replyBtn.className = 'btn btn-sm btn-outline-primary';
+    replyBtn.style.marginLeft = '5px';
+
+    replyBtn.addEventListener('click', () => {
+      compose_email();
+      document.querySelector('#compose-recipients').value = email.sender;
+      document.querySelector('#compose-subject').value = email.subject.startsWith('Re: ')
+        ? email.subject
+        : `Re: ${email.subject}`;
+      document.querySelector('#compose-body').value = `On ${email.timestamp} ${email.sender} wrote:\n${email.body}`;
+    });
+
+    document.querySelector('#email-view').append(replyBtn);
 
     // Mark as read
     fetch(`/emails/${id}`, {
       method: 'PUT',
       body: JSON.stringify({ read: true })
     });
+
+
   });
 }
