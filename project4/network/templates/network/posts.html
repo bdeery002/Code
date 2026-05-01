@@ -1,0 +1,67 @@
+{% for post in page_obj %}
+<div class="card mb-3 post-card" data-post-id="{{ post.id }}">
+    <div class="card-body">
+        <div class="d-flex justify-content-between align-items-start">
+            <a href="{% url 'profile' post.author.username %}" class="font-weight-bold text-decoration-none">
+                {{ post.author.username }}
+            </a>
+            <small class="text-muted">{{ post.created_at|date:"N j, Y, P" }}</small>
+        </div>
+
+        <!-- Post content - becomes textarea when editing -->
+        <p class="post-content mt-2 mb-2">{{ post.content }}</p>
+
+        <!-- Edit textarea (hidden by default) -->
+        <div class="edit-area" style="display:none;">
+            <textarea class="form-control edit-textarea mb-2" rows="3">{{ post.content }}</textarea>
+            <button class="btn btn-sm btn-success save-btn">Save</button>
+            <button class="btn btn-sm btn-secondary cancel-btn ml-1">Cancel</button>
+        </div>
+
+        <!-- Edit button (only for post author) -->
+        {% if user.is_authenticated and user == post.author %}
+        <button class="btn btn-sm btn-outline-secondary edit-btn mb-2">Edit</button>
+        {% endif %}
+
+        <!-- Like button -->
+        <div class="d-flex align-items-center mt-1">
+            {% if user.is_authenticated %}
+            <button 
+                class="btn btn-sm like-btn {% if user in post.likes.all %}btn-danger{% else %}btn-outline-danger{% endif %} mr-2"
+                data-post-id="{{ post.id }}">
+                ♥
+            </button>
+            {% else %}
+            <span class="mr-2">♥</span>
+            {% endif %}
+            <span class="like-count">{{ post.likes.count }}</span>
+        </div>
+
+    </div>
+</div>
+{% empty %}
+<p class="text-muted">No posts to show.</p>
+{% endfor %}
+
+<!-- Pagination -->
+{% if page_obj.has_other_pages %}
+<nav>
+    <ul class="pagination">
+        {% if page_obj.has_previous %}
+        <li class="page-item">
+            <a class="page-link" href="?page={{ page_obj.previous_page_number }}">Previous</a>
+        </li>
+        {% endif %}
+        <li class="page-item disabled">
+            <span class="page-link">
+                Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
+            </span>
+        </li>
+        {% if page_obj.has_next %}
+        <li class="page-item">
+            <a class="page-link" href="?page={{ page_obj.next_page_number }}">Next</a>
+        </li>
+        {% endif %}
+    </ul>
+</nav>
+{% endif %}

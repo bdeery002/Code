@@ -1,0 +1,15 @@
+{% extends "network/layout.html" %}
+{% load static %}
+
+{% block title %}Following{% endblock %}
+
+{% block body %}
+<div class="container mt-4">
+    <h4>Following</h4>
+    {% include "network/posts.html" %}
+</div>
+{% endblock %}
+
+{% block script %}
+<script src="{% static 'network/network.js' %}"></script>
+{% endblock %}

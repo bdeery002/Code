@@ -1,0 +1,35 @@
+{% extends "network/layout.html" %}
+{% load static %}
+
+{% block title %}{{ profile_user.username }}{% endblock %}
+
+{% block body %}
+<div class="container mt-4">
+    <div class="card mb-4">
+        <div class="card-body">
+            <h3>{{ profile_user.username }}</h3>
+            <p class="text-muted mb-2">
+                <strong id="followers-count">{{ followers_count }}</strong> Followers &nbsp;·&nbsp;
+                <strong>{{ following_count }}</strong> Following
+            </p>
+
+            {% if user.is_authenticated and user != profile_user %}
+            <button 
+                id="follow-btn"
+                class="btn {% if is_following %}btn-outline-secondary{% else %}btn-primary{% endif %}"
+                data-username="{{ profile_user.username }}"
+                data-following="{{ is_following|yesno:'true,false' }}">
+                {% if is_following %}Unfollow{% else %}Follow{% endif %}
+            </button>
+            {% endif %}
+        </div>
+    </div>
+
+    <h5>Posts</h5>
+    {% include "network/posts.html" %}
+</div>
+{% endblock %}
+
+{% block script %}
+<script src="{% static 'network/network.js' %}"></script>
+{% endblock %}

@@ -1,0 +1,31 @@
+{% extends "network/layout.html" %}
+{% load static %}
+
+{% block title %}All Posts{% endblock %}
+
+{% block body %}
+<div class="container mt-4">
+    {% if user.is_authenticated %}
+    <div class="card mb-4">
+        <div class="card-header"><h5 class="mb-0">New Post</h5></div>
+        <div class="card-body">
+            <form action="{% url 'new_post' %}" method="post">
+                {% csrf_token %}
+                <div class="form-group">
+                    <textarea name="content" class="form-control" rows="3" 
+                              placeholder="What's on your mind?"></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary">Post</button>
+            </form>
+        </div>
+    </div>
+    {% endif %}
+
+    <h4>All Posts</h4>
+    {% include "network/posts.html" %}
+</div>
+{% endblock %}
+
+{% block script %}
+<script src="{% static 'network/network.js' %}"></script>
+{% endblock %}
