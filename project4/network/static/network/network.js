@@ -162,8 +162,7 @@ function toggleFollow(button) {
     .catch(error => console.error('Error:', error));
 }
 
-
-// Helper to get CSRF token from cookies (required by Django for POST requests)
+// Helper to get CSRF token from cookies (needed for POST/PUT requests in Django)
 function getCookie(name) {
     let cookieValue = null;
     if (document.cookie && document.cookie !== '') {
