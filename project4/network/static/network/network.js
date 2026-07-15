@@ -44,7 +44,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
 function toggleLike(postId, button) {
-    fetch(`/posts/${postId}/like`, {
+    fetch(`/posts/${postId}/like`, { // ← Makes request to view!
         method: 'POST',
         headers: {
             'X-CSRFToken': getCookie('csrftoken'),

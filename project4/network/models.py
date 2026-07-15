@@ -2,8 +2,13 @@ from django.contrib.auth.models import AbstractUser
 from django.db import models
 
 
+# The default user model includes the following fields:
+# UserName, password, email,first_name last_name
+
 class User(AbstractUser):
     pass
+
+# models.Model creates a database table for the Post model with the following fields:
 
 class Post(models.Model):
     author = models.ForeignKey(User, on_delete=models.CASCADE, related_name="posts")
