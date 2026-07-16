@@ -1,6 +1,7 @@
 📘 Sox - Wiki & Systems Hub
 A centralized Django-based dashboard designed for internal audit and operational tracking. It features a wiki-style blog with markdown support and a dynamic SOX Control dashboard powered by HTMX and SVG workflows.
 
+.
 ├── Dockerfile
 ├── backup.json
 ├── blog
@@ -62,10 +63,13 @@ A centralized Django-based dashboard designed for internal audit and operational
 │   └── js
 │       └── components
 └── templates
+    ├── aboutme.html
     ├── admin
     │   └── csv_upload.html
+    ├── base.html
     ├── blog
     │   ├── _entry_list.html
+    │   ├── _sidebar.html
     │   ├── edit_entry.html
     │   ├── entry.html
     │   ├── error.html
@@ -75,9 +79,7 @@ A centralized Django-based dashboard designed for internal audit and operational
     │   ├── propose_edit.html
     │   └── search_results.html
     ├── home.html
-    ├── layout.html
     └── sox_controls
-        ├── base_sox.html
         ├── index.html
         └── partials
             ├── control_table_rows.html
@@ -139,3 +141,27 @@ When rendering templates in your views, prefer:
 from mysite.constants import TEMPLATE_REGISTRY as T
 # ...
 return render(request, T["KEY_NAME"]["path"], context)
+
+---
+🚀 Next Development Cycle: Portfolio App
+Objective: Formalize self-promotion and move static pages to a dedicated, scalable app.
+
+Steps:
+1. Create the App:
+   python manage.py startapp portfolio
+
+2. Configuration:
+   - Add 'portfolio' to INSTALLED_APPS in mysite/settings.py.
+   - Create portfolio/urls.py and map the 'about' view.
+   - Include 'portfolio.urls' in the root mysite/urls.py.
+
+3. Template Setup:
+   - Move templates/aboutme.html to templates/portfolio/about.html.
+   - Update the file to extend 'base.html' and use the 'content' block.
+
+4. Registry Update:
+   - Register the new template in mysite/constants.py under 'PORTFOLIO_ABOUT'.
+
+5. Validation:
+   - Run 'python manage.py verify_templates' to ensure the new app is correctly mapped.
+---

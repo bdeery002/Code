@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% block title %}About — Brendan Deery{% endblock %}
+
+{% block content %}
+<header class="page-header">
+  <h1 class="section-title">About</h1>
+  <p class="lead">A quick intro and what I enjoy working on.</p>
+</header>
+
+<section class="about-grid">
+  <div class="about-photo">
+    <img src="https://picsum.photos/seed/profile/300" alt="Profile" class="avatar-lg" />
+  </div>
+  <div class="about-bio">
+    <p>
+      I'm Brendan, a Senior Manager in IT Internal Audit. I love connecting business process with technology and
+      continuously picking up new skills through hands-on projects and courses.
+    </p>
+    <p>
+      Lately, I've been working through CS50 and exploring data pipelines between SAP S/4HANA and SQL Server. I
+      try to keep things simple, write clean code, and learn a little every day.
+    </p>
+    <ul class="about-list">
+      <li><strong>Location:</strong> Pleasanton, CA</li>
+      <li><strong>Focus:</strong> ERP controls, SOX, data analytics</li>
+      <li><strong>Learning:</strong> CS50, SQL Server, Power BI</li>
+    </ul>
+  </div>
+</section>
+{% endblock %}
