@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from .models import SoxControl, BusinessProcess, SubProcess
+from mysite.constants import TEMPLATE_REGISTRY as T
 
 
 def load_workflow(request, workflow_name):
@@ -7,12 +8,12 @@ def load_workflow(request, workflow_name):
     try:
         process = BusinessProcess.objects.get(slug=workflow_name)
     except BusinessProcess.DoesNotExist:
-        return render(request, "sox_controls/partials/workflows/not_found.html", {"workflow_name": workflow_name})
+        return render(request, T["SOX_WORKFLOW_NOT_FOUND"], {"workflow_name": workflow_name})
 
     primary = process.sub_processes.filter(is_primary_flow=True)
     secondary = process.sub_processes.filter(is_primary_flow=False)
 
-    return render(request, "sox_controls/partials/workflows/workflow.html", {
+    return render(request, T["SOX_WORKFLOW"]["path"], {
         "process": process,
         "primary_nodes": primary,
         "secondary_nodes": secondary,
@@ -49,9 +50,9 @@ def index(request):
     }
 
     if request.headers.get('HX-Request'):
-        return render(request, "sox_controls/partials/control_table_rows.html", context)
+        return render(request, T["SOX_ROWS"]["path"], context)
 
-    return render(request, "sox_controls/index.html", context)
+    return render(request, T["SOX_INDEX"]["path"], context)
 
 def filter_by_process(request, process_slug):
     """Called by HTMX when a tab is clicked. Filters controls by BusinessProcess."""
@@ -59,7 +60,7 @@ def filter_by_process(request, process_slug):
         'sub_process__business_process'
     ).filter(sub_process__business_process__slug=process_slug)
 
-    return render(request, "sox_controls/partials/control_table_rows.html", {"controls": controls})
+    return render(request, T["SOX_ROWS"]["path"], {"controls": controls})
 
 
 def filter_by_subprocess(request, subprocess_slug):
@@ -68,4 +69,4 @@ def filter_by_subprocess(request, subprocess_slug):
         'sub_process__business_process'
     ).filter(sub_process__slug=subprocess_slug)
 
-    return render(request, "sox_controls/partials/control_table_rows.html", {"controls": controls})
+    return render(request, T["SOX_ROWS"]["path"], {"controls": controls})

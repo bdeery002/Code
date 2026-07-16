@@ -1,8 +1,7 @@
 📘 Sox - Wiki & Systems Hub
 A centralized Django-based dashboard designed for internal audit and operational tracking. It features a wiki-style blog with markdown support and a dynamic SOX Control dashboard powered by HTMX and SVG workflows.
 
-
-── Dockerfile
+├── Dockerfile
 ├── backup.json
 ├── blog
 │   ├── __init__.py
@@ -26,8 +25,6 @@ A centralized Django-based dashboard designed for internal audit and operational
 │   ├── migrations
 │   │   └── __init__.py
 │   ├── models.py
-│   ├── templates
-│   │   └── main
 │   ├── tests.py
 │   ├── urls.py
 │   └── views.py
@@ -35,6 +32,7 @@ A centralized Django-based dashboard designed for internal audit and operational
 ├── mysite
 │   ├── __init__.py
 │   ├── asgi.py
+│   ├── constants.py
 │   ├── settings.py
 │   ├── urls.py
 │   └── wsgi.py
@@ -44,13 +42,15 @@ A centralized Django-based dashboard designed for internal audit and operational
 │   ├── __init__.py
 │   ├── admin.py
 │   ├── apps.py
+│   ├── management
+│   │   ├── __init__.py
+│   │   └── commands
+│   │       ├── __init__.py
+│   │       └── verify_templates.py
 │   ├── migrations
 │   │   ├── 0001_initial.py
-│   │   ├── 0002_soxcontrol.py
-│   │   ├── 0003_soxcontrol_sub_process.py
-│   │   ├── 0004_businessprocess_remove_soxcontrol_process_name_and_more.py
-│   │   ├── 0005_auto_20260301_2118.py
-│   │   ├── 0006_remove_flight_destination_remove_flight_origin_and_more.py
+│   │   ├── 0002_alter_soxcontrol_control_id.py
+│   │   ├── 0003_businessprocess_code.py
 │   │   └── __init__.py
 │   ├── models.py
 │   ├── tests.py
@@ -82,9 +82,9 @@ A centralized Django-based dashboard designed for internal audit and operational
         └── partials
             ├── control_table_rows.html
             └── workflows
-                ├── otc_workflow.html
-                └── p2p_workflow.html
-                
+                ├── not_found.html
+                └── workflow.html
+
 🚦 To-Do List (Roadmap)
 Phase 1: Operational Core (COMPLETED)
 
@@ -115,6 +115,27 @@ Logic: Loop through SubProcess models to draw nodes and arrows dynamically based
 Why this "To-Do" matters
 By adding Dynamic SVG Generation to your roadmap, you are acknowledging the "Challenge of Consistency" we discussed. Instead of spending hours fixing typos between your SVG and your Database, you are planning to make the Database the "Single Source of Truth."
 
-Would you like me to show you how to add a step_number field to your SoxControl model so you can begin sorting them for this future dynamic loop?
 
-$ tree -I 'venv|__pycache__|node_modules'
+🛠 Development & Maintenance Workflow
+To keep the dashboard stable and refactor-proof, we maintain a strict Template Registry system.
+
+1. Template Registry (mysite/constants.py)
+All template paths, associated view names, and URL mappings are managed in mysite/constants.py under the TEMPLATE_REGISTRY dictionary.
+
+Whenever you:
+
+Add a new template: Create the file in the templates/ folder and add a new entry to TEMPLATE_REGISTRY.
+
+Move or Rename a template: Update the path value in TEMPLATE_REGISTRY to match the new location.
+
+Update a View: Import the registry in your views.py and use the registry keys rather than hardcoding string paths.
+
+2. Verification Procedure
+We use a custom management command to validate the registry against your actual file system and URL configuration.Always run this before committing code
+python manage.py verify_templates
+
+3. Best Practice for Views
+When rendering templates in your views, prefer:
+from mysite.constants import TEMPLATE_REGISTRY as T
+# ...
+return render(request, T["KEY_NAME"]["path"], context)
