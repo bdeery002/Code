@@ -1,6 +1,7 @@
-{% extends "layout.html" %}
-
+{% extends "base.html" %}
 {% block title %}Edit {{ title }}{% endblock %}
+
+{% block nav_extra %}{% include "blog/_sidebar.html" %}{% endblock %}
 
 {% block body %}
     <h1>Edit Entry: {{ title }}</h1>

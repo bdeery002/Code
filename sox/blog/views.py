@@ -34,14 +34,6 @@ def search(request):
     })
 
 
-def random_page(request):
-    entries = Entry.objects.all()
-    if entries.exists():
-        selected = random.choice(list(entries))
-        return redirect("blog:entry", title=selected.title)
-    return redirect("blog:index")
-
-
 def propose_edit(request, title=None):
     """Handles both new entry proposals and edit proposals for existing entries."""
     existing_entry = None

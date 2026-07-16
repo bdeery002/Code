@@ -1,10 +1,14 @@
-{% extends "layout.html" %}
+{% extends "base.html" %}
 
 {% block title %}
     {% if entry %}Propose Edit: {{ entry.title }}{% else %}Propose New Entry{% endif %}
 {% endblock %}
 
-{% block body %}
+{% block nav_extra %}
+    {% include "blog/_sidebar.html" %}
+{% endblock %}
+
+{% block content %}
     <h1>{% if entry %}Propose an Edit: {{ entry.title }}{% else %}Propose a New Entry{% endif %}</h1>
     
     <p class="proposal-intro">

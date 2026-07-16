@@ -7,7 +7,6 @@ app_name = 'blog'
 urlpatterns = [
     path("", views.index, name="index"),
     path("search/", views.search, name="search"),
-    path("random/", views.random_page, name="random_page"),
     
     # Matches <a href="{% url 'propose_edit' %}"> in your layout/sidebar
     path("propose/", views.propose_edit, name="propose_edit"),

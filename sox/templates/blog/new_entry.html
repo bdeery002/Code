@@ -1,8 +1,12 @@
-{% extends "layout.html" %}
+{% extends "base.html" %}
 
 {% block title %}Create New Page{% endblock %}
 
-{% block body %}
+{% block nav_extra %}
+    {% include "blog/_sidebar.html" %}
+{% endblock %}
+
+{% block content %}
     <h1>Create New Encyclopedia Page</h1>
 
     <form action="{% url 'blog:new_entry' %}" method="post">
