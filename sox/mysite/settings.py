@@ -134,3 +134,6 @@ CSRF_TRUSTED_ORIGINS = [
     "https://*.app.github.dev",
     "https://localhost:8081",
 ]
+
+# Django Admin Customization
+ADMIN_URL = '/admin/'

@@ -23,7 +23,7 @@ class CsvUploadForm(forms.Form):
     )
 
 # ---------------------------
-# CSV Mixin — unchanged from your original
+# CSV Mixin
 # ---------------------------
 class ModelCsvAdminMixin:
     upload_template_name = "admin/csv_upload.html"
@@ -144,7 +144,7 @@ class SubProcessInline(admin.TabularInline):
     model = SubProcess
     extra = 1
     fields = ("name", "slug", "sequence_order", "is_primary_flow")
-    readonly_fields = ("slug",)  # auto-derived from name on save
+    readonly_fields = ("slug",)
     ordering = ("sequence_order",)
 
 
@@ -166,13 +166,12 @@ class BusinessProcessAdmin(admin.ModelAdmin):
 class SubProcessAdmin(ModelCsvAdminMixin, admin.ModelAdmin):
     list_display = ("name", "business_process", "sequence_order", "is_primary_flow", "slug")
     list_filter = ("business_process", "is_primary_flow")
-    list_editable = ("sequence_order", "is_primary_flow")  # reorder directly in list view
+    list_editable = ("sequence_order", "is_primary_flow")
     ordering = ("business_process", "sequence_order")
     readonly_fields = ("slug",)
     actions = ["download_csv_template", "go_to_upload_csv", "export_selected_as_csv"]
 
     def get_fk_lookup(self, field, raw_value):
-        # CSV column for business_process accepts name or slug
         if field.name == "business_process":
             try:
                 return BusinessProcess.objects.get(
@@ -186,20 +185,20 @@ class SubProcessAdmin(ModelCsvAdminMixin, admin.ModelAdmin):
 
 
 # ---------------------------
-# SoxControl Admin — your mixin fully preserved
+# SoxControl Admin
 # ---------------------------
 @admin.register(SoxControl)
 class SoxControlAdmin(ModelCsvAdminMixin, admin.ModelAdmin):
-    list_display = ("control_id", "get_process", "sub_process", "risk", "effective_date")
-    search_fields = ("control_id", "sub_process__name", "sub_process__business_process__name")
-    list_filter = ("sub_process__business_process", "risk")
+    list_display = ("control_id", "get_process", "sub_process", "effective_date")
+    search_fields = ("control_id", "sub_process__name", "risk")
+    list_filter = ("sub_process__business_process",)
     readonly_fields = ("control_id",)
-    actions = ["download_csv_template", "go_to_upload_csv", "export_selected_as_csv"]
+    ordering = ("sub_process__business_process", "-sequence_order")
+    actions = ["move_up", "move_down", "renumber_controls", "download_csv_template", "go_to_upload_csv", "export_selected_as_csv"]
 
     def csv_fields(self):
-        # Exclude control_id — it's auto-generated on save
         return [f for f in self.model._meta.fields 
-                if not f.primary_key and f.name != "control_id"]
+                if not f.primary_key and f.name != "control_id" and f.name != "sequence_order"]
 
     @admin.display(description="Business Process", ordering="sub_process__business_process")
     def get_process(self, obj):
@@ -216,3 +215,67 @@ class SoxControlAdmin(ModelCsvAdminMixin, admin.ModelAdmin):
                     f"SubProcess '{raw_value}' not found. Create it in Admin first."
                 )
         return super().get_fk_lookup(field, raw_value)
+
+    @admin.action(description="↑ Move up")
+    def move_up(self, request, queryset):
+        if queryset.count() != 1:
+            self.message_user(request, "Select exactly one control.", messages.ERROR)
+            return
+        
+        control = queryset.first()
+        bp = control.sub_process.business_process
+        
+        if control.sequence_order <= 10:
+            self.message_user(request, "Already at the top.", messages.WARNING)
+            return
+        
+        prev_control = SoxControl.objects.filter(
+            sub_process__business_process=bp,
+            sequence_order__lt=control.sequence_order
+        ).order_by('-sequence_order').first()
+        
+        if not prev_control:
+            control.sequence_order -= 10
+            control.save(update_fields=['sequence_order'])
+            self.message_user(request, "Control moved up.", messages.SUCCESS)
+        else:
+            control.sequence_order, prev_control.sequence_order = prev_control.sequence_order, control.sequence_order
+            control.save(update_fields=['sequence_order'])
+            prev_control.save(update_fields=['sequence_order'])
+            self.message_user(request, "Control moved up.", messages.SUCCESS)
+
+    @admin.action(description="↓ Move down")
+    def move_down(self, request, queryset):
+        if queryset.count() != 1:
+            self.message_user(request, "Select exactly one control.", messages.ERROR)
+            return
+        
+        control = queryset.first()
+        bp = control.sub_process.business_process
+        
+        next_control = SoxControl.objects.filter(
+            sub_process__business_process=bp,
+            sequence_order__gt=control.sequence_order
+        ).order_by('sequence_order').first()
+        
+        if not next_control:
+            control.sequence_order += 10
+            control.save(update_fields=['sequence_order'])
+            self.message_user(request, "Control moved down.", messages.SUCCESS)
+        else:
+            control.sequence_order, next_control.sequence_order = next_control.sequence_order, control.sequence_order
+            control.save(update_fields=['sequence_order'])
+            next_control.save(update_fields=['sequence_order'])
+            self.message_user(request, "Control moved down.", messages.SUCCESS)
+
+    @admin.action(description="Renumber selected controls sequentially")
+    def renumber_controls(self, request, queryset):
+        if queryset.exists():
+            count = SoxControl.renumber_controls_for_queryset(queryset)
+            self.message_user(
+                request,
+                f"✓ Renumbered {count} selected controls",
+                messages.SUCCESS
+            )
+        else:
+            self.message_user(request, "No controls selected.", messages.ERROR)
