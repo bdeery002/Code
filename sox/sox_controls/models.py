@@ -84,7 +84,7 @@ class SoxControl(models.Model):
     sequence_order = models.PositiveIntegerField(
         default=10,
         help_text="Order for renumbering (drag to reorder). Use multiples of 10 to allow insertions."
-    )
+    )        
 
     def save(self, *args, **kwargs):
         if not self.control_id:
@@ -107,6 +107,7 @@ class SoxControl(models.Model):
                 next_num = 1
             
             self.control_id = f"{prefix}-{str(next_num).zfill(2)}"
+        
         super().save(*args, **kwargs)
 
     @staticmethod
@@ -114,7 +115,7 @@ class SoxControl(models.Model):
         """Renumber selected controls sequentially by business process."""
         from django.db import transaction
         
-        queryset = queryset.order_by('-sequence_order', 'id')
+        queryset = queryset.order_by('sequence_order', 'id')
         
         with transaction.atomic():
             # First pass: assign temporary IDs to avoid unique constraint violations
