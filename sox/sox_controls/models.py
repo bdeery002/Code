@@ -43,8 +43,7 @@ class SubProcess(models.Model):
     class Meta:
         verbose_name = "Sub Process"
         verbose_name_plural = "Sub Processes"
-        unique_together = [("business_process", "sequence_order")]
-        ordering = ["-sequence_order"]
+        ordering = ["sequence_order"]
 
     def save(self, *args, **kwargs):
         self.slug = slugify(self.name)
@@ -57,7 +56,7 @@ class SubProcess(models.Model):
         
         subprocesses = SubProcess.objects.filter(
             business_process=business_process
-        ).order_by('-sequence_order', 'id')
+        ).order_by('sequence_order', 'id')
         
         with transaction.atomic():
             # First pass: assign temporary IDs (high values to avoid conflicts)
@@ -134,7 +133,7 @@ class SoxControl(models.Model):
     class Meta:
         verbose_name = "SOX Control"
         verbose_name_plural = "SOX Controls"
-        ordering = ['-sequence_order']
+        ordering = ['sequence_order']
 
     def __str__(self):
         return f"{self.control_id} – {self.sub_process.name}"

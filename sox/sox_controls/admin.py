@@ -12,6 +12,7 @@ from adminsortable2.admin import SortableAdminMixin
 
 from .models import BusinessProcess, SubProcess, SoxControl
 
+
 # ---------------------------
 # CSV Upload Form
 # ---------------------------
@@ -163,13 +164,20 @@ class BusinessProcessAdmin(admin.ModelAdmin):
 # ---------------------------
 # SubProcess Admin with Drag-and-Drop
 # ---------------------------
+
 @admin.register(SubProcess)
 class SubProcessAdmin(SortableAdminMixin, ModelCsvAdminMixin, admin.ModelAdmin):
     list_display = ("name", "business_process", "sequence_order", "is_primary_flow", "slug")
     list_filter = ("business_process", "is_primary_flow")
-    ordering = ("-sequence_order",)
+    ordering = ("sequence_order",)
     readonly_fields = ("slug",)
+    sortable_by = ["sequence_order"]
     actions = ["download_csv_template", "go_to_upload_csv", "export_selected_as_csv"]
+
+    def get_queryset(self, request):
+        """Display in descending order while keeping sortable2 working in background."""
+        qs = super().get_queryset(request)
+        return qs.order_by("-sequence_order")
 
     def get_fk_lookup(self, field, raw_value):
         if field.name == "business_process":
@@ -183,7 +191,6 @@ class SubProcessAdmin(SortableAdminMixin, ModelCsvAdminMixin, admin.ModelAdmin):
                 )
         return super().get_fk_lookup(field, raw_value)
 
-
 # ---------------------------
 # SoxControl Admin with Drag-and-Drop
 # ---------------------------
@@ -193,8 +200,14 @@ class SoxControlAdmin(SortableAdminMixin, ModelCsvAdminMixin, admin.ModelAdmin):
     search_fields = ("control_id", "sub_process__name", "risk")
     list_filter = ("sub_process__business_process",)
     readonly_fields = ("control_id",)
-    ordering = ("-sequence_order",)
+    ordering = ("sequence_order",)
+    sortable_by = ["sequence_order"]
     actions = ["renumber_controls", "download_csv_template", "go_to_upload_csv", "export_selected_as_csv"]
+
+    def get_queryset(self, request):
+        """Group by business process, then display in descending order."""
+        qs = super().get_queryset(request)
+        return qs.order_by('sub_process__business_process__name', '-sequence_order')
 
     def csv_fields(self):
         return [f for f in self.model._meta.fields 

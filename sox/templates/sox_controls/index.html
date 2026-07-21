@@ -35,12 +35,16 @@
     <table class="table">
         <thead>
             <tr>
+                <th class="col-id">CONTROL ID</th>
                 <th class="col-proc">PROCESS</th>
                 <th class="col-sub">SUB-PROCESS</th>
                 <th class="col-risk">RISK</th>
                 <th class="col-desc">CONTROL DESCRIPTION</th>
             </tr>
             <tr class="filter-row">
+                <th><input type="text" name="filter_id" placeholder="Filter..." 
+                           hx-get="{% url 'sox_controls:index' %}" hx-trigger="keyup changed delay:300ms" 
+                           hx-target="#control-results" hx-include="nearest tr"></th>
                 <th><input type="text" id="filter-proc" name="filter_proc" placeholder="Filter..." 
                            hx-get="{% url 'sox_controls:index' %}" hx-trigger="keyup changed delay:300ms" 
                            hx-target="#control-results" hx-include="nearest tr"></th>
