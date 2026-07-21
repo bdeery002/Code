@@ -161,7 +161,7 @@ class BusinessProcessAdmin(admin.ModelAdmin):
 
 
 # ---------------------------
-# SubProcess Admin
+# SubProcess Admin with Drag-and-Drop
 # ---------------------------
 @admin.register(SubProcess)
 class SubProcessAdmin(SortableAdminMixin, ModelCsvAdminMixin, admin.ModelAdmin):
@@ -193,7 +193,7 @@ class SoxControlAdmin(SortableAdminMixin, ModelCsvAdminMixin, admin.ModelAdmin):
     search_fields = ("control_id", "sub_process__name", "risk")
     list_filter = ("sub_process__business_process",)
     readonly_fields = ("control_id",)
-    ordering = ("-sequence_order",)  # Simplified for adminsortable2
+    ordering = ("-sequence_order",)
     actions = ["renumber_controls", "download_csv_template", "go_to_upload_csv", "export_selected_as_csv"]
 
     def csv_fields(self):

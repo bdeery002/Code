@@ -3,17 +3,6 @@ from django.utils.text import slugify
 from django.core.exceptions import ValidationError
 
 
-def clean(self):
-    if SubProcess.objects.filter(
-        business_process=self.business_process,
-        sequence_order=self.sequence_order
-    ).exclude(pk=self.pk).exists():
-        raise ValidationError(
-            f"A subprocess with sequence order {self.sequence_order} already exists "
-            f"in '{self.business_process}'. Use a different number (e.g. 15 to insert between 10 and 20)."
-        )
-
-
 class BusinessProcess(models.Model):
     name = models.CharField(max_length=100)
     slug = models.SlugField(unique=True)
@@ -55,11 +44,33 @@ class SubProcess(models.Model):
         verbose_name = "Sub Process"
         verbose_name_plural = "Sub Processes"
         unique_together = [("business_process", "sequence_order")]
-        ordering = ["-sequence_order"]  # Simplified for adminsortable2
+        ordering = ["-sequence_order"]
 
     def save(self, *args, **kwargs):
         self.slug = slugify(self.name)
         super().save(*args, **kwargs)
+
+    @staticmethod
+    def reorder_for_business_process(business_process):
+        """Reorder all subprocesses for a business process using a two-pass approach."""
+        from django.db import transaction
+        
+        subprocesses = SubProcess.objects.filter(
+            business_process=business_process
+        ).order_by('-sequence_order', 'id')
+        
+        with transaction.atomic():
+            # First pass: assign temporary IDs (high values to avoid conflicts)
+            for index, sp in enumerate(subprocesses, start=1):
+                sp.sequence_order = 10000 + index  # Large positive temp values
+                sp.save(update_fields=['sequence_order'])
+            
+            # Second pass: assign final sequence orders (10, 20, 30, ...)
+            for index, sp in enumerate(subprocesses, start=1):
+                sp.sequence_order = index * 10
+                sp.save(update_fields=['sequence_order'])
+        
+        return len(subprocesses)
 
     def __str__(self):
         return f"{self.business_process.name} › {self.name}"
