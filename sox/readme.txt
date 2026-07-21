@@ -165,3 +165,12 @@ Steps:
 5. Validation:
    - Run 'python manage.py verify_templates' to ensure the new app is correctly mapped.
 ---
+Some useful things to note
+If you change the model run you need to create the migration first:
+
+
+docker compose exec app python manage.py makemigrations sox_controls
+
+Then run migrate:
+
+docker compose exec app python manage.py migrate

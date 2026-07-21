@@ -55,7 +55,7 @@ class SubProcess(models.Model):
         verbose_name = "Sub Process"
         verbose_name_plural = "Sub Processes"
         unique_together = [("business_process", "sequence_order")]
-        ordering = ["business_process", "sequence_order"]
+        ordering = ["-sequence_order"]  # Simplified for adminsortable2
 
     def save(self, *args, **kwargs):
         self.slug = slugify(self.name)
@@ -73,7 +73,7 @@ class SoxControl(models.Model):
     effective_date = models.DateField()
     sequence_order = models.PositiveIntegerField(
         default=10,
-        help_text="Order for renumbering (lower numbers = earlier controls). Use multiples of 10 to allow insertions."
+        help_text="Order for renumbering (drag to reorder). Use multiples of 10 to allow insertions."
     )
 
     def save(self, *args, **kwargs):
@@ -123,7 +123,7 @@ class SoxControl(models.Model):
     class Meta:
         verbose_name = "SOX Control"
         verbose_name_plural = "SOX Controls"
-        ordering = ['sub_process__business_process', '-sequence_order', 'id']
+        ordering = ['-sequence_order']
 
     def __str__(self):
         return f"{self.control_id} – {self.sub_process.name}"

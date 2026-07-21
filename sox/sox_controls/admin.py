@@ -8,6 +8,7 @@ from django.db import transaction
 from django.http import HttpResponse
 from django.shortcuts import redirect, render
 from django.urls import path
+from adminsortable2.admin import SortableAdminMixin
 
 from .models import BusinessProcess, SubProcess, SoxControl
 
@@ -163,11 +164,10 @@ class BusinessProcessAdmin(admin.ModelAdmin):
 # SubProcess Admin
 # ---------------------------
 @admin.register(SubProcess)
-class SubProcessAdmin(ModelCsvAdminMixin, admin.ModelAdmin):
+class SubProcessAdmin(SortableAdminMixin, ModelCsvAdminMixin, admin.ModelAdmin):
     list_display = ("name", "business_process", "sequence_order", "is_primary_flow", "slug")
     list_filter = ("business_process", "is_primary_flow")
-    list_editable = ("sequence_order", "is_primary_flow")
-    ordering = ("business_process", "sequence_order")
+    ordering = ("-sequence_order",)
     readonly_fields = ("slug",)
     actions = ["download_csv_template", "go_to_upload_csv", "export_selected_as_csv"]
 
@@ -185,16 +185,16 @@ class SubProcessAdmin(ModelCsvAdminMixin, admin.ModelAdmin):
 
 
 # ---------------------------
-# SoxControl Admin
+# SoxControl Admin with Drag-and-Drop
 # ---------------------------
 @admin.register(SoxControl)
-class SoxControlAdmin(ModelCsvAdminMixin, admin.ModelAdmin):
-    list_display = ("control_id", "get_process", "sub_process", "effective_date")
+class SoxControlAdmin(SortableAdminMixin, ModelCsvAdminMixin, admin.ModelAdmin):
+    list_display = ("control_id", "get_process", "sub_process", "control_description", "risk")
     search_fields = ("control_id", "sub_process__name", "risk")
     list_filter = ("sub_process__business_process",)
     readonly_fields = ("control_id",)
-    ordering = ("sub_process__business_process", "-sequence_order")
-    actions = ["move_up", "move_down", "renumber_controls", "download_csv_template", "go_to_upload_csv", "export_selected_as_csv"]
+    ordering = ("-sequence_order",)  # Simplified for adminsortable2
+    actions = ["renumber_controls", "download_csv_template", "go_to_upload_csv", "export_selected_as_csv"]
 
     def csv_fields(self):
         return [f for f in self.model._meta.fields 
@@ -215,58 +215,6 @@ class SoxControlAdmin(ModelCsvAdminMixin, admin.ModelAdmin):
                     f"SubProcess '{raw_value}' not found. Create it in Admin first."
                 )
         return super().get_fk_lookup(field, raw_value)
-
-    @admin.action(description="↑ Move up")
-    def move_up(self, request, queryset):
-        if queryset.count() != 1:
-            self.message_user(request, "Select exactly one control.", messages.ERROR)
-            return
-        
-        control = queryset.first()
-        bp = control.sub_process.business_process
-        
-        if control.sequence_order <= 10:
-            self.message_user(request, "Already at the top.", messages.WARNING)
-            return
-        
-        prev_control = SoxControl.objects.filter(
-            sub_process__business_process=bp,
-            sequence_order__lt=control.sequence_order
-        ).order_by('-sequence_order').first()
-        
-        if not prev_control:
-            control.sequence_order -= 10
-            control.save(update_fields=['sequence_order'])
-            self.message_user(request, "Control moved up.", messages.SUCCESS)
-        else:
-            control.sequence_order, prev_control.sequence_order = prev_control.sequence_order, control.sequence_order
-            control.save(update_fields=['sequence_order'])
-            prev_control.save(update_fields=['sequence_order'])
-            self.message_user(request, "Control moved up.", messages.SUCCESS)
-
-    @admin.action(description="↓ Move down")
-    def move_down(self, request, queryset):
-        if queryset.count() != 1:
-            self.message_user(request, "Select exactly one control.", messages.ERROR)
-            return
-        
-        control = queryset.first()
-        bp = control.sub_process.business_process
-        
-        next_control = SoxControl.objects.filter(
-            sub_process__business_process=bp,
-            sequence_order__gt=control.sequence_order
-        ).order_by('sequence_order').first()
-        
-        if not next_control:
-            control.sequence_order += 10
-            control.save(update_fields=['sequence_order'])
-            self.message_user(request, "Control moved down.", messages.SUCCESS)
-        else:
-            control.sequence_order, next_control.sequence_order = next_control.sequence_order, control.sequence_order
-            control.save(update_fields=['sequence_order'])
-            next_control.save(update_fields=['sequence_order'])
-            self.message_user(request, "Control moved down.", messages.SUCCESS)
 
     @admin.action(description="Renumber selected controls sequentially")
     def renumber_controls(self, request, queryset):
