@@ -4,12 +4,13 @@
   secondary_nodes: SubProcess queryset (is_primary_flow=False)
 {% endcomment %}
 
-{% with node_width=160 node_height=70 gap=50 start_x=50 cy=75 %}
+{% with node_width=172 node_height=70 gap=50 start_x=10 cy=75 %}
 {% with total_primary=primary_nodes|length %}
 
 <svg width="100%" 
      height="{% if secondary_nodes %}280{% else %}150{% endif %}" 
-     viewBox="0 0 900 {% if secondary_nodes %}280{% else %}150{% endif %}">
+     viewBox="0 0 900 {% if secondary_nodes %}280{% else %}150{% endif %}"
+     preserveAspectRatio="xMinYMid meet">
 
   <defs>
     <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">

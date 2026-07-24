@@ -33,20 +33,21 @@ body, html {
 /* ==========================================================================
    3. SIDEBAR NAVIGATION
    ========================================================================== */
+
 .sidebar {
     background-color: #f8f9fa;
-    width: 250px;
-    min-width: 250px;
-    padding: 2rem;
+    width: 180px;      /* Reduced from 250px */
+    min-width: 180px;  /* Prevents flex/grid squishing */
+    padding: 1.5rem 1rem; /* Slimmer padding to maximize usable space */
     border-right: 1px solid #dee2e6;
 }
 
-.sidebar h2 {
-    font-size: 1.5rem;
-    margin-top: 0;
-    margin-bottom: 1.5rem;
-}
 
+.sidebar h2 {
+    font-size: 1.25rem;
+    margin-top: 0;
+    margin-bottom: 1.2rem;
+}
 .search {
     width: 100%;
     padding: 8px;
@@ -55,12 +56,15 @@ body, html {
     border-radius: 4px;
 }
 
+
 .nav-links a {
     display: block;
-    padding: 10px 0;
+    padding: 8px 0;    /* Slightly tighter vertical spacing */
     text-decoration: none;
     color: #007bff;
+    font-size: 0.95rem; /* Optional: subtle size reduction for links */
 }
+
 
 .nav-links a:hover {
     text-decoration: underline;

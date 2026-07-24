@@ -114,22 +114,24 @@ class SoxControl(models.Model):
     def renumber_controls_for_queryset(queryset):
         """Renumber selected controls sequentially by business process."""
         from django.db import transaction
+        from itertools import groupby
         
-        queryset = queryset.order_by('sequence_order', 'id')
+        queryset = queryset.order_by('sub_process__business_process__code', 'sequence_order', 'id')
         
         with transaction.atomic():
-            # First pass: assign temporary IDs to avoid unique constraint violations
+            # First pass: assign temporary IDs
             for index, control in enumerate(queryset, start=1):
                 control.control_id = f"__TEMP_{control.pk}__"
                 control.save(update_fields=['control_id'])
             
-            # Second pass: assign final IDs
-            for index, control in enumerate(queryset, start=1):
-                prefix = control.sub_process.business_process.code.upper()
-                control.control_id = f"{prefix}-{str(index).zfill(2)}"
-                control.save(update_fields=['control_id'])
+            # Second pass: assign final IDs, reset counter per business process
+            for bp_code, group in groupby(queryset, key=lambda c: c.sub_process.business_process.code.upper()):
+                for index, control in enumerate(group, start=1):
+                    control.control_id = f"{bp_code}-{str(index).zfill(2)}"
+                    control.save(update_fields=['control_id'])
         
         return len(queryset)
+
 
     class Meta:
         verbose_name = "SOX Control"
