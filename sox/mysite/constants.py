@@ -28,4 +28,6 @@ TEMPLATE_REGISTRY = {
     "SOX_ROWS":       {"path": "sox_controls/partials/control_table_rows.html", "view": "sox.hx_rows", "url": "/controls/hx/rows/", "models": "SoxControl", "role": "partial", "htmx_target": "#control-table-body"},
     "SOX_WORKFLOW":   {"path": "sox_controls/partials/workflows/workflow.html", "view": "sox.workflow", "url": "/controls/workflow/", "models": "BusinessProcess, SubProcess", "role": "partial", "htmx_target": "#workflow-container"},
     "SOX_WORKFLOW_NOT_FOUND": {"path": "sox_controls/partials/workflows/not_found.html", "view": "sox.load_workflow (partial)", "url": "N/A", "models": "None", "role": "partial", "htmx_target": "#workflow-container"},
+    "SOX_CONTROL_DETAIL": {"path": "sox_controls/control_detail.html", "description": "Individual control detail page"},
+    "SOX_CONTROL_NOT_FOUND": {"path": "sox_controls/partials/not_found.html", "description": "Control not found page"},
 }

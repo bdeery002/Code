@@ -202,6 +202,27 @@ class SoxControlAdmin(SortableAdminMixin, ModelCsvAdminMixin, admin.ModelAdmin):
     readonly_fields = ("control_id",)
     ordering = ("sequence_order",)
     sortable_by = ["sequence_order"]
+    fieldsets = (
+            ("Identification", {
+                "fields": ("control_id", "sub_process", "effective_date"),
+                "description": "Core control identifiers"
+            }),
+            ("Control Description & Risk", {
+                "fields": ("control_description", "risk"),
+            }),
+            ("Control Classification", {
+                "fields": ("control_type", "execution_type"),
+                "description": "Is this preventative/detective and automated/manual?"
+            }),
+            ("Implementation & Testing", {
+                "fields": ("implementation_details", "test_procedures"),
+            }),
+            ("Sequence & Ordering", {
+                "fields": ("sequence_order",),
+                "description": "Used for drag-and-drop reordering in the admin list view"
+            }),
+    )
+
     actions = ["renumber_controls", "download_csv_template", "go_to_upload_csv", "export_selected_as_csv"]
 
     def get_queryset(self, request):

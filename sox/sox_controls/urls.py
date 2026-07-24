@@ -8,4 +8,5 @@ urlpatterns = [
     path("load-workflow/<str:workflow_name>/", views.load_workflow, name="load_workflow"),
     path("filter/process/<str:process_slug>/", views.filter_by_process, name="filter_by_process"),
     path("filter/subprocess/<str:subprocess_slug>/", views.filter_by_subprocess, name="filter_by_subprocess"),
+    path('<str:control_id>/', views.control_detail, name='control_detail'),
 ]

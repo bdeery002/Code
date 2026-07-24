@@ -80,6 +80,35 @@ class SoxControl(models.Model):
     sub_process = models.ForeignKey(SubProcess, on_delete=models.PROTECT, related_name="controls")
     control_description = models.TextField()
     risk = models.TextField(help_text="Describe what could go wrong if this control fails.")
+    CONTROL_TYPE_CHOICES = (
+            ('preventative', 'Preventative'),
+            ('detective', 'Detective'),
+        )
+    EXECUTION_TYPE_CHOICES = (
+            ('automated', 'Automated'),
+            ('manual', 'Manual'),
+        )
+
+    control_type = models.CharField(
+            max_length=20,
+            choices=CONTROL_TYPE_CHOICES,
+            default='preventative',
+            help_text="Preventative (prevents errors) or Detective (detects errors)"
+        )
+    execution_type = models.CharField(
+            max_length=20,
+            choices=EXECUTION_TYPE_CHOICES,
+            default='automated',
+            help_text="Automated (performed by system) or Manual (performed by person)"
+        )
+    implementation_details = models.TextField(
+            blank=True,
+            help_text="How the control is implemented in the system/process"
+        )
+    test_procedures = models.TextField(
+        blank=True,
+        help_text="How to test that the control is working effectively"
+    )
     effective_date = models.DateField()
     sequence_order = models.PositiveIntegerField(
         default=10,

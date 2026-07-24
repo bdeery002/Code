@@ -75,3 +75,18 @@ def filter_by_subprocess(request, subprocess_slug):
     ).filter(sub_process__slug=subprocess_slug).order_by('sequence_order')
 
     return render(request, T["SOX_ROWS"]["path"], {"controls": controls})
+
+def control_detail(request, control_id):
+    """Display detailed information for a single control."""
+    try:
+        control = SoxControl.objects.select_related('sub_process__business_process').get(
+            control_id=control_id
+        )
+    except SoxControl.DoesNotExist:
+        return render(request, T["SOX_CONTROL_NOT_FOUND"], {"control_id": control_id})
+    
+    context = {
+        "control": control,
+        "is_authenticated": request.user.is_authenticated,
+    }
+    return render(request, T["SOX_CONTROL_DETAIL"]["path"], context)

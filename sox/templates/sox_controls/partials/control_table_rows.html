@@ -1,6 +1,11 @@
 {% for control in controls %}
 <tr>
-    <td>{{ control.control_id }}</td>
+    <td class="col-id">
+        <a href="{% url 'sox_controls:control_detail' control.control_id %}" 
+           style="text-decoration: none; color: #0066cc;">
+            {{ control.control_id }}
+        </a>
+    </td>
     <td>{{ control.sub_process.business_process.name }}</td>
     <td>{{ control.sub_process.name }}</td>
     <td>{{ control.risk }}</td>
