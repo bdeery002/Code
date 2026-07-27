@@ -26,4 +26,5 @@ urlpatterns = [
     path('', include("main.urls")),      # Home page
     path('blog/', include("blog.urls", namespace="blog")), # Blog entries now live at /blog/...
     path('sox_controls/', include('sox_controls.urls', namespace='sox_controls')),
+    path('itgc/', include('itgc.urls', namespace='itgc')),
 ]

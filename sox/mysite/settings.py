@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     "blog",
     "main",
     "sox_controls",
+    "itgc",
     
 ]
 
