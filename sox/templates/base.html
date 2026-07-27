@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}SOX Management{% endblock %}</title>
+    <title>{% block title %}SAP Business Process Controls (SOX){% endblock %}</title>
     <link rel="stylesheet" href="{% static 'css/styles.css' %}">
     <script src="https://unpkg.com/htmx.org@1.9.10"></script>
 </head>
@@ -14,7 +14,7 @@
             <h2>Navigation</h2>
             <div class="nav-links">
                 <a href="{% url 'home' %}">Home</a>
-                <a href="{% url 'sox_controls:index' %}">SOX Dashboard</a>
+                <a href="{% url 'sox_controls:index' %}">SAP Business Process Controls (SOX) </a>
                 <a href="/admin/">Admin Panel</a>
                 <a href="{% url 'blog:index' %}">Blog</a>
                 {% block nav_extra %}{% endblock %}
