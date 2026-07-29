@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/6.0/ref/settings/
 """
 
+
 from pathlib import Path
 
 import dj_database_url
@@ -41,11 +42,12 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "adminsortable2",
     "blog",
-    "main",
     "sox_controls",
     "itgc",
+    "about",
     
 ]
+
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",

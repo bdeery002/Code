@@ -1,59 +1,68 @@
 {% extends "base.html" %}
 
 {% block content %}
-<div style="max-width: 1200px; margin: 0 auto; padding: 20px;">
-    <h1>IT General Controls (SOX)</h1>
-    
-    <!-- Filter Section -->
-    <div style="background: #f8f9fa; padding: 15px; border-radius: 5px; margin-bottom: 30px;">
-        <form hx-get="{% url 'itgc:index' %}" hx-target="#control-results" hx-push-url="false">
-            <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 15px; margin-bottom: 15px;">
-                <input type="text" name="filter_cat" placeholder="Filter by Category..." 
-                       value="{{ request.GET.filter_cat }}"
-                       hx-trigger="change" style="padding: 8px; border: 1px solid #ddd; border-radius: 4px;">
-                <input type="text" name="filter_desc" placeholder="Filter by Description..." 
-                       value="{{ request.GET.filter_desc }}"
-                       hx-trigger="change" style="padding: 8px; border: 1px solid #ddd; border-radius: 4px;">
-                <input type="text" name="filter_risk" placeholder="Filter by Risk..." 
-                       value="{{ request.GET.filter_risk }}"
-                       hx-trigger="change" style="padding: 8px; border: 1px solid #ddd; border-radius: 4px;">
-            </div>
-            <button type="submit" style="padding: 8px 16px; background: #417690; color: white; border: none; border-radius: 4px; cursor: pointer;">
-                Search
-            </button>
-        </form>
-    </div>
+<h1>IT General Controls (SOX)</h1>
 
-    <!-- Layer Tabs -->
-    <div style="border-bottom: 2px solid #e5e7eb; margin-bottom: 20px;">
-        <div style="display: flex; gap: 10px;">
-            <button hx-get="{% url 'itgc:index' %}" hx-target="#control-results" hx-push-url="false"
-                    style="padding: 12px 20px; background: none; border: none; border-bottom: 3px solid #417690; cursor: pointer; font-weight: 600; color: #417690;">
-                All Layers
-            </button>
-            {% for layer in layers %}
-            <button hx-get="{% url 'itgc:filter_by_layer' layer.slug %}" hx-target="#control-results" hx-push-url="false"
-                    style="padding: 12px 20px; background: none; border: none; border-bottom: 2px solid #e5e7eb; cursor: pointer; font-weight: 500; color: #666;">
-                {{ layer.name }}
-            </button>
-            {% endfor %}
+<!-- Filter Section -->
+<div style="background: #fcfcfc; padding: 15px; margin-bottom: 20px; border: 1px solid #000;">
+    <form hx-get="{% url 'itgc:index' %}" hx-target="#control-results" hx-push-url="false">
+        <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-bottom: 10px;">
+            <input type="text" name="filter_cat" placeholder="Filter by Category..." 
+                value="{{ request.GET.filter_cat }}"
+                hx-trigger="keyup changed delay:300ms"
+                style="padding: 8px; border: 1px solid #ccc; border-radius: 4px; font-size: 0.9rem;">
+            <input type="text" name="filter_desc" placeholder="Filter by Description..." 
+                value="{{ request.GET.filter_desc }}"
+                hx-trigger="keyup changed delay:300ms"
+                style="padding: 8px; border: 1px solid #ccc; border-radius: 4px; font-size: 0.9rem;">
+            <input type="text" name="filter_risk" placeholder="Filter by Risk..." 
+                value="{{ request.GET.filter_risk }}"
+                hx-trigger="keyup changed delay:300ms"
+                style="padding: 8px; border: 1px solid #ccc; border-radius: 4px; font-size: 0.9rem;">
         </div>
-    </div>
-
-    <!-- Controls Table -->
-    <table style="width: 100%; border-collapse: collapse;">
-        <thead>
-            <tr style="background: #f3f4f6; border-bottom: 2px solid #e5e7eb;">
-                <th style="padding: 12px; text-align: left; font-weight: 600;">Control ID</th>
-                <th style="padding: 12px; text-align: left; font-weight: 600;">Layer</th>
-                <th style="padding: 12px; text-align: left; font-weight: 600;">Category</th>
-                <th style="padding: 12px; text-align: left; font-weight: 600;">Risk</th>
-                <th style="padding: 12px; text-align: left; font-weight: 600;">Description</th>
-            </tr>
-        </thead>
-        <tbody id="control-results">
-            {% include "itgc/partials/control_table_rows.html" %}
-        </tbody>
-    </table>
+        <button type="submit" style="padding: 8px 16px; background: #f8f9fa; border: 1px solid #000; border-radius: 4px; cursor: pointer; font-size: 0.9rem;">
+            Search
+        </button>
+    </form>
 </div>
+
+<!-- Layer Tabs -->
+<div style="display: flex; gap: 5px; margin-bottom: 0;">
+    <button hx-get="{% url 'itgc:index' %}" hx-target="#control-results" hx-push-url="false"
+            class="tab-btn active"
+            style="padding: 10px 20px; border: 1px solid #000; border-bottom: none; background: #fff; cursor: pointer; font-weight: bold;">
+        All Layers
+    </button>
+    {% for layer in layers %}
+    <button hx-get="{% url 'itgc:filter_by_layer' layer.slug %}" hx-target="#control-results" hx-push-url="false"
+            class="tab-btn"
+            style="padding: 10px 20px; border: 1px solid #000; border-bottom: none; background: #e9ecef; cursor: pointer;">
+        {{ layer.name }}
+    </button>
+    {% endfor %}
+</div>
+
+<!-- Controls Table -->
+<table class="table">
+    <thead>
+        <tr>
+            <th class="col-id">CONTROL ID</th>
+            <th class="col-proc">LAYER</th>
+            <th class="col-sub">CATEGORY</th>
+            <th class="col-risk">RISK</th>
+            <th class="col-desc">DESCRIPTION</th>
+        </tr>
+    </thead>
+    <tbody id="control-results">
+        {% include "itgc/partials/control_table_rows.html" %}
+    </tbody>
+</table>
+
+<script>
+    function updateActiveTab(el) {
+        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+        el.classList.add('active');
+    }
+</script>
+
 {% endblock %}

@@ -3,3 +3,4 @@ psycopg2
 dj-database-url
 markdown2
 django-admin-sortable2
+django-allauth

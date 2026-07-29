@@ -39,4 +39,10 @@ TEMPLATE_REGISTRY = {
     "ITGC_CONTROL_NOT_FOUND": "itgc/control_detail.html",
     "ITGC_CONTROL_DETAIL": {"path": "itgc/control_detail.html"},
 
+
+    # Add these entries to your TEMPLATE_REGISTRY in mysite/constants.py
+
+    # ABOUT (Portfolio)
+    "ABOUT_INDEX":    {"path": "about/about.html", "view": "about.about", "url": "/about/", "models": "None", "role": "page"},
+
 }

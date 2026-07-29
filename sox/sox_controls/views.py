@@ -1,6 +1,14 @@
-from django.shortcuts import render
+from django.shortcuts import get_object_or_404, render
 from .models import SoxControl, BusinessProcess, SubProcess
 from mysite.constants import TEMPLATE_REGISTRY as T
+from django.contrib.auth.decorators import login_required
+
+@login_required(login_url='login')  # Redirects to login if not authenticated
+def control_detail(request, pk):
+    """Render control detail — registered users only."""
+    control = get_object_or_404(SoxControl, pk=pk)
+    return render(request, 'sox_controls/control_detail.html', {'control': control})
+
 
 
 def load_workflow(request, workflow_name):
