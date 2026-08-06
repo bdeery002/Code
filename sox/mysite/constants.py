@@ -35,8 +35,8 @@ TEMPLATE_REGISTRY = {
     "ITGC_INDEX": {"path": "itgc/index.html"},
     "ITGC_ROWS": {"path": "itgc/partials/control_table_rows.html"},
     "ITGC_WORKFLOW": {"path": "itgc/partials/workflows/workflow.html"},
-    "ITGC_WORKFLOW_NOT_FOUND": "itgc/partials/workflows/not_found.html",
-    "ITGC_CONTROL_NOT_FOUND": "itgc/control_detail.html",
+    "ITGC_WORKFLOW_NOT_FOUND": {"path": "itgc/partials/workflows/not_found.html", "role": "partial"},
+    "ITGC_CONTROL_NOT_FOUND": {"path": "itgc/control_detail.html", "role": "page"},
     "ITGC_CONTROL_DETAIL": {"path": "itgc/control_detail.html"},
 
 

@@ -2,19 +2,12 @@ from django.shortcuts import get_object_or_404, render
 from .models import SoxControl, BusinessProcess, SubProcess
 from mysite.constants import TEMPLATE_REGISTRY as T
 
-def control_detail(request, pk):
-    """Render control detail — registered users only."""
-    control = get_object_or_404(SoxControl, pk=pk)
-    return render(request, 'sox_controls/control_detail.html', {'control': control})
-
-
-
 def load_workflow(request, workflow_name):
     """Returns the SVG partial for the requested workflow tab."""
     try:
         process = BusinessProcess.objects.get(slug=workflow_name)
     except BusinessProcess.DoesNotExist:
-        return render(request, T["SOX_WORKFLOW_NOT_FOUND"], {"workflow_name": workflow_name})
+        return render(request, T["SOX_WORKFLOW_NOT_FOUND"]["path"], {"workflow_name": workflow_name})
 
     # Explicitly order by descending (overrides model's ascending default)
     primary = process.sub_processes.filter(is_primary_flow=True).order_by('sequence_order')
@@ -81,7 +74,7 @@ def control_detail(request, control_id):
             control_id=control_id
         )
     except SoxControl.DoesNotExist:
-        return render(request, T["SOX_CONTROL_NOT_FOUND"], {"control_id": control_id})
+        return render(request, T["SOX_CONTROL_NOT_FOUND"]["path"], {"control_id": control_id})
     
     context = {
         "control": control,

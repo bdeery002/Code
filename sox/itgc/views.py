@@ -8,7 +8,7 @@ def load_workflow(request, workflow_name):
     try:
         layer = ITGCLayer.objects.get(slug=workflow_name)
     except ITGCLayer.DoesNotExist:
-        return render(request, T["ITGC_WORKFLOW_NOT_FOUND"], {"workflow_name": workflow_name})
+        return render(request, T["ITGC_WORKFLOW_NOT_FOUND"]["path"], {"workflow_name": workflow_name})
 
     primary = layer.categories.filter(is_primary_flow=True).order_by('sequence_order')
     secondary = layer.categories.filter(is_primary_flow=False).order_by('sequence_order')
@@ -72,7 +72,7 @@ def control_detail(request, control_id):
             control_id=control_id
         )
     except ITGCControl.DoesNotExist:
-        return render(request, T["ITGC_CONTROL_NOT_FOUND"], {"control_id": control_id})
+        return render(request, T["ITGC_CONTROL_NOT_FOUND"]["path"], {"control_id": control_id})
     
     context = {
         "control": control,
