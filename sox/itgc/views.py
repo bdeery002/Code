@@ -37,17 +37,8 @@ def index(request):
     if f_risk:
         controls = controls.filter(risk__icontains=f_risk)
 
-    is_authenticated = request.user.is_authenticated
-
-    if not is_authenticated:
-        for control in controls:
-            words = control.control_description.split()
-            if len(words) > 10:
-                control.control_description = " ".join(words[:10]) + "… [Login to view full control]"
-
     context = {
         "controls": controls,
-        "is_authenticated": is_authenticated,
         "layers": ITGCLayer.objects.prefetch_related("categories").all(),
     }
 

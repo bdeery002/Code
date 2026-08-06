@@ -261,3 +261,34 @@ tr:hover {
     background: #fff;
     font-weight: bold;
 }
+
+/* Control Detail Page - Disable text selection */
+.control-detail {
+    -webkit-user-select: none; /* Safari */
+    -ms-user-select: none;     /* IE 10 and older */
+    user-select: none;         /* Standard syntax */
+}
+
+.control-detail section,
+.control-detail div,
+.control-detail p {
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+
+/* ITGC Control Detail Page - Disable text selection */
+.itgc-control-detail {
+    -webkit-user-select: none; /* Safari */
+    -ms-user-select: none;     /* IE 10 and older */
+    user-select: none;         /* Standard syntax */
+}
+
+.itgc-control-detail section,
+.itgc-control-detail div,
+.itgc-control-detail p {
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}

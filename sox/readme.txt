@@ -1,169 +1,261 @@
-📘 Sox - Wiki & Systems Hub
-A centralized Django-based dashboard designed for internal audit and operational tracking. It features a wiki-style blog with markdown support and a dynamic SOX Control dashboard powered by HTMX and SVG workflows.
+SoX Wiki & Systems Hub
+A centralized Django-based dashboard for internal audit and operational tracking. Features a wiki-style blog with markdown support and dynamic control dashboards (SOX and ITGC) powered by HTMX and interactive SVG workflows.
 
-.
-├── Dockerfile
-├── backup.json
-├── blog
-│   ├── __init__.py
-│   ├── admin.py
-│   ├── apps.py
-│   ├── migrations
-│   │   ├── 0001_initial.py
-│   │   ├── 0002_entryproposal.py
-│   │   ├── 0003_entryproposal_send_rejection_email.py
-│   │   └── __init__.py
-│   ├── models.py
-│   ├── tests.py
-│   ├── urls.py
-│   └── views.py
-├── docker-compose.yml
-├── env_example
-├── main
-│   ├── __init__.py
-│   ├── admin.py
-│   ├── apps.py
-│   ├── migrations
-│   │   └── __init__.py
-│   ├── models.py
-│   ├── tests.py
-│   ├── urls.py
-│   └── views.py
-├── manage.py
-├── mysite
-│   ├── __init__.py
-│   ├── asgi.py
-│   ├── constants.py
-│   ├── settings.py
-│   ├── urls.py
-│   └── wsgi.py
-├── readme.txt
-├── requirements.txt
-├── sox_controls
-│   ├── __init__.py
-│   ├── admin.py
-│   ├── apps.py
-│   ├── management
-│   │   ├── __init__.py
-│   │   └── commands
-│   │       ├── __init__.py
-│   │       └── verify_templates.py
-│   ├── migrations
-│   │   ├── 0001_initial.py
-│   │   ├── 0002_alter_soxcontrol_control_id.py
-│   │   ├── 0003_businessprocess_code.py
-│   │   └── __init__.py
-│   ├── models.py
-│   ├── tests.py
-│   ├── urls.py
-│   └── views.py
-├── static
-│   ├── css
-│   │   └── styles.css
-│   └── js
-│       └── components
-└── templates
-    ├── aboutme.html
-    ├── admin
-    │   └── csv_upload.html
-    ├── base.html
-    ├── blog
-    │   ├── _entry_list.html
-    │   ├── _sidebar.html
-    │   ├── edit_entry.html
-    │   ├── entry.html
-    │   ├── error.html
-    │   ├── index.html
-    │   ├── new_entry.html
-    │   ├── proposal_submitted.html
-    │   ├── propose_edit.html
-    │   └── search_results.html
-    ├── home.html
-    └── sox_controls
-        ├── index.html
-        └── partials
-            ├── control_table_rows.html
-            └── workflows
-                ├── not_found.html
-                └── workflow.html
+Tech Stack
+• Backend: Django 4.x, Python 3.12.1
+• Database: PostgreSQL
+• Frontend: HTMX, JavaScript, CSS
+• Visualization: Dynamic SVG workflows
+• Containerization: Docker & Docker Compose
+• Authentication: Django's default django.contrib.auth
 
-🚦 To-Do List (Roadmap)
-Phase 1: Operational Core (COMPLETED)
+Quick Start
 
-[x] Relational Modeling: SoxControl connected to BusinessProcess via ForeignKeys.
+Prerequisites
+• Docker & Docker Compose installed
 
-[x] SVG Mapping: Clickable P2P/OTC workflows that trigger live table filtering.
+• Create environment file
+Copy env_example to .env and update with your configuration:
 
-[x] Bulk Upload: CSV utility for mass-importing audit controls.
+cp env_example .env
+Required variables:
 
-Phase 2: User Experience & Polish (Current)
+• DATABASE_URL: PostgreSQL connection string
+• SECRET_KEY: Django secret key (generate a new one for production)
 
-[ ] Sync Validation: Create a "Sync Check" view to ensure SVG slugs exist in the database.
+Build and start containers
 
-[ ] UX Indicators: Add HTMX "Loading" indicators for slower database queries.
+docker compose up
+Access the application
 
-[ ] The "Gated" View: Finalize the logic that masks control details for unauthenticated users.
+Navigate to http://localhost:8000
 
-Phase 3: Automation & Scalability (The "Elite" Phase)
+Admin panel: http://localhost:8000/admin
 
-[ ] Dynamic SVG Generation: Move from static .html SVG files to a template-driven loop.
+Project Structure
+sox/
+├── about/              # About page app
+├── blog/               # Wiki-style blog with markdown support
+├── itgc/               # IT General Controls dashboard
+├── sox_controls/       # SAP SOX Controls dashboard
+├── mysite/             # Django project settings
+│   ├── constants.py    # Template registry & configurations
+│   ├── settings.py     # Django settings
+│   └── urls.py         # URL routing
+├── templates/          # HTML templates
+├── static/             # CSS & JavaScript assets
+├── manage.py           # Django management script
+└── requirements.txt    # Python dependencies
 
-Logic: Loop through SubProcess models to draw nodes and arrows dynamically based on a sequence_order field.
+Modules
+📝 Blog (/blog)
+A wiki-style article platform with markdown support.
 
-[ ] Visual Consistency Engine: Implement a slugification system to ensure database subprocess names always match SVG interaction IDs.
+Status: Placeholder for future articles
 
-[ ] Automated Backups: Schedule weekly dumpdata to backup.json to track the Neon DB state in Git.
+Features:
 
-Why this "To-Do" matters
-By adding Dynamic SVG Generation to your roadmap, you are acknowledging the "Challenge of Consistency" we discussed. Instead of spending hours fixing typos between your SVG and your Database, you are planning to make the Database the "Single Source of Truth."
+Create and edit entries (currently public, will be restricted to author)
 
+View published entries
 
-🛠 Development & Maintenance Workflow
-To keep the dashboard stable and refactor-proof, we maintain a strict Template Registry system.
+Search functionality
 
-1. Template Registry (mysite/constants.py)
-All template paths, associated view names, and URL mappings are managed in mysite/constants.py under the TEMPLATE_REGISTRY dictionary.
+Planned: Hide edit/propose features from unauthenticated users; transition to author-only writing space
 
-Whenever you:
+🎛️ SOX Controls (/sox_controls)
+Dynamic dashboard for SAP Business Process Controls.
 
-Add a new template: Create the file in the templates/ folder and add a new entry to TEMPLATE_REGISTRY.
+Workflow:
 
-Move or Rename a template: Update the path value in TEMPLATE_REGISTRY to match the new location.
+Processes → displayed as tabs at the top
 
-Update a View: Import the registry in your views.py and use the registry keys rather than hardcoding string paths.
+SubProcesses → nodes in an interactive SVG workflow
 
-2. Verification Procedure
-We use a custom management command to validate the registry against your actual file system and URL configuration.Always run this before committing code
-python manage.py verify_templates
+Controls → table filtered by process and subprocess selection
 
-3. Best Practice for Views
-When rendering templates in your views, prefer:
+Features:
+
+Click a process tab to load its workflow
+
+Click a subprocess node to filter the control list
+
+Multi-column filtering (Control ID, Process, Sub-Process, Risk, Description)
+
+Bulk CSV upload for mass-importing controls
+
+Responsive HTMX-powered filtering with real-time updates
+
+Models:
+
+BusinessProcess: Parent container for processes
+
+SubProcess: Workflow nodes (ordered by sequence_order)
+
+SoxControl: Individual audit controls linked to subprocesses
+
+🔐 ITGC (/itgc)
+IT General Controls dashboard using a similar architecture to SOX Controls.
+
+Workflow:
+
+Layers → displayed as tabs (Application, Database, Infrastructure, etc.)
+
+Categories → nodes in an interactive SVG workflow
+
+Controls → table filtered by layer and category selection
+
+Features:
+
+Filter by layer and category
+
+Dynamic SVG category workflow with primary and secondary flows
+
+Real-time control list filtering
+
+Form-based search across categories, descriptions, and risk levels
+
+Models:
+
+ITGCLayer: Parent container for IT control layers
+
+ITGCCategory: Workflow nodes (ordered by sequence_order)
+
+ITGCControl: Individual IT controls linked to categories
+
+ℹ️ About (/about)
+Simple informational page about the organization or project.
+
+Development Workflow
+Template Registry System
+All template paths and view mappings are managed in mysite/constants.py under the TEMPLATE_REGISTRY dictionary. This prevents hardcoded paths and keeps the codebase refactor-proof.
+
+Best practices:
+
+Adding a new template:
+
+Create the template file in templates/
+
+Add a new entry to TEMPLATE_REGISTRY in mysite/constants.py
+
+Moving or renaming a template:
+
+Update the file location
+
+Update the corresponding entry in TEMPLATE_REGISTRY
+
+Using templates in views:
+
 from mysite.constants import TEMPLATE_REGISTRY as T
-# ...
-return render(request, T["KEY_NAME"]["path"], context)
 
----
-🚀 Next Development Cycle: Portfolio App
-Objective: Formalize self-promotion and move static pages to a dedicated, scalable app.
+def my_view(request):
+    return render(request, T["KEY_NAME"]["path"], context)
+Verification Command
+Before committing code changes, verify that all templates and URLs are properly registered:
 
-Steps:
-1. Create the App:
-   python manage.py startapp portfolio
+docker compose exec app python manage.py verify_templates
+This command validates:
 
-2. Configuration:
-   - Add 'portfolio' to INSTALLED_APPS in mysite/settings.py.
-   - Create portfolio/urls.py and map the 'about' view.
-   - Include 'portfolio.urls' in the root mysite/urls.py.
+All templates in the registry exist on the filesystem
 
-3. Template Setup:
-   - Move templates/aboutme.html to templates/portfolio/about.html.
-   - Update the file to extend 'base.html' and use the 'content' block.
+All view names map correctly to URL configurations
 
-4. Registry Update:
-   - Register the new template in mysite/constants.py under 'PORTFOLIO_ABOUT'.
+No orphaned templates or missing entries
 
-5. Validation:
-   - Run 'python manage.py verify_templates' to ensure the new app is correctly mapped.
+Database Migrations
+When you modify any model:
+
+Create migration:
+
+docker compose exec app python manage.py makemigrations <app_name>
+Apply migration:
+
+docker compose exec app python manage.py migrate
+Example:
+
+docker compose exec app python manage.py makemigrations sox_controls
+docker compose exec app python manage.py migrate
+Key Features
+HTMX-Powered Filtering
+Real-time table filtering without page reloads
+
+Dropdown, button, and input-based filtering
+
+Debounced search (300ms delay on keyup)
+
+Maintains filter state across interactions
+
+Dynamic SVG Workflows
+Interactive process/category nodes render as clickable SVG elements
+
+Nodes automatically position based on sequence_order field
+
+Primary and secondary node flows with visual distinction
+
+Responsive viewBox scaling for mobile compatibility
+
+CSV Bulk Upload
+Mass-import controls via CSV file
+
+Located in Django admin under sox_controls app
+
+Supports batch updates and error reporting
+
+Roadmap
+Phase 1: Operational Core ✅
+[x] Relational modeling (SoxControl ↔ BusinessProcess, etc.)
+
+[x] SVG workflow mapping with clickable process nodes
+
+[x] Bulk CSV upload utility
+
+Phase 2: User Experience & Polish (In Progress)
+[ ] Sync validation: Ensure SVG slugs match database entries
+
+[ ] HTMX loading indicators for slow queries
+
+[ ] Gated view logic for unauthenticated users
+
+[ ] Blog edit feature lockdown (author-only access)
+
+Phase 3: Automation & Scalability (Planned)
+[ ] Dynamic SVG Generation: Convert static HTML SVG files to template-driven loops
+
+Generate nodes and arrows from SubProcess and ITGCCategory models
+
+Use sequence_order field as the single source of truth
+
+[ ] Visual Consistency Engine: Slugification system to auto-sync database names with SVG IDs
+
+[ ] Automated Backups: Weekly dumpdata to backup.json for version control
+
+Troubleshooting
+After adding a new SubProcess/ITGCCategory
+Run the verification command to ensure slugs match:
+
+docker compose exec app python manage.py verify_templates
+Database connection issues
+Check that DATABASE_URL in .env points to a running PostgreSQL instance and the credentials are correct.
+
+HTMX filtering not working
+Ensure HTMX JavaScript is loaded in base.html
+
+Check browser console for errors
+
+Verify that hx-get URLs match your URL configuration
+
+Contributing
+Create a feature branch
+
+Make changes following the template registry pattern
+
+Run migrations if models changed
+
+Run verify_templates command before committing
+
+Submit a pull request
+
+
 ---
 Some useful things to note
 If you change the model run you need to create the migration first:

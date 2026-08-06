@@ -1,9 +1,7 @@
 from django.shortcuts import get_object_or_404, render
 from .models import SoxControl, BusinessProcess, SubProcess
 from mysite.constants import TEMPLATE_REGISTRY as T
-from django.contrib.auth.decorators import login_required
 
-@login_required(login_url='login')  # Redirects to login if not authenticated
 def control_detail(request, pk):
     """Render control detail — registered users only."""
     control = get_object_or_404(SoxControl, pk=pk)
@@ -47,17 +45,9 @@ def index(request):
     if f_risk:
         controls = controls.filter(risk__icontains=f_risk)
 
-    is_authenticated = request.user.is_authenticated
-
-    if not is_authenticated:
-        for control in controls:
-            words = control.control_description.split()
-            if len(words) > 10:
-                control.control_description = " ".join(words[:10]) + "… [Login to view full control]"
 
     context = {
         "controls": controls,
-        "is_authenticated": is_authenticated,
         "processes": BusinessProcess.objects.prefetch_related("sub_processes").all(),
     }
 
