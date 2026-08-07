@@ -5,3 +5,4 @@ markdown2
 django-admin-sortable2
 django-allauth
 django-ratelimit
+python-dotenv
